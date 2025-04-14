@@ -1,0 +1,162 @@
+﻿body {
+  margin: 0;
+  overflow: hidden;
+}
+
+#scene-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.5s;
+  background-color: #e7e8ea;
+  z-index: 0;
+}
+
+#background-text.focused {
+  font-size: 4rem; /* Zmenší text */
+  position: absolute;
+  top: 0; /* Umístíme text na začátek */
+  left: 0; /* Umístíme text do levého horního rohu */
+  margin-top: 2%; /* Procentuální posun od horního okraje */
+  margin-left: 2%; /* Procentuální posun od levého okraje */
+  color: #ffffff; /* Bílý text */
+  font-weight: bold; /* Tučný text */
+  z-index: 10; /* Zajištění, že text je nad ostatními elementy */
+}
+
+.homepage-title {
+  position: fixed;
+  top: 50%; /* Pozice titulku na střed */
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centering */
+  font-size: 41vw;
+  font-weight: bold;
+  transition: color 0.5s;
+  z-index: -1;
+}
+
+
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+
+}
+
+.logo {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  flex: 1;
+}
+
+.contact-btn {
+  background-color: yellow;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* Footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.footer-logo {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Styl pro homepage-title */
+.homepage-title {
+  position: fixed; /* Zajistí, že titulek zůstane fixovaný na místě */
+  top: 50%; /* Nastaví pozici titulku na střed */
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centrování titulku */
+  font-size: 41vw;
+  font-weight: bold;
+  transition: color 0.5s;
+  z-index: -1; /* Titulek bude na pozadí */
+}
+#background-text.focused {
+  font-size: 1.5rem; /* Zmenší text */
+  position: absolute;
+  top: 10px; /* Umístí text na začátek stránky */
+  left: 10px; /* Umístí text do levého horního rohu */
+  color: #ffffff; /* Nastaví barvu textu na bílou, když je focused */
+  font-weight: bold; /* Volitelně tučný text */
+  z-index: 10; /* Zajistí, že text bude nad ostatními elementy */
+}
+
+
+.clickable-point {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.5s;
+}
+
+  .clickable-point:hover {
+    transform: scale(1.2);
+  }
+
+#info-box {
+  position: absolute;
+  bottom: 50%;
+  right: 10%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  width: 300px;
+  text-align: center;
+  transition: opacity 0.5s;
+}
+
+.hidden {
+  display: none;
+}
+
+#back-button {
+  position: absolute;
+  bottom: 45%;
+  right: 15%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  font-size: 1rem;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity 0.5s;
+}
+
+  #back-button:hover {
+    background: gray;
+  }
