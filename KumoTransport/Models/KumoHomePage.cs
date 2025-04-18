@@ -9,4 +9,13 @@ public class KumoHomePage : Page<KumoHomePage>
 {
   [Region(Title = "Main Content")]
   public TextField MainContent { get; set; }
+
+  [Region(Title = "Door Text")]
+  public TextField DoorText { get; set; }
+
+  [Region(Title = "Trunk Text")]
+  public TextField TrunkText { get; set; }
+
+  [Region(Title = "Hood Text")]
+  public TextField HoodText { get; set; }
 }

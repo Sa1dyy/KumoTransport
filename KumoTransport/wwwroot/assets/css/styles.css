@@ -7,13 +7,25 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.5s;
-  background-color: #e7e8ea;
   z-index: 0;
 }
+
+/* Výchozí a zaostřené scény */
+body.scene-default,
+header.scene-default,
+footer.scene-default {
+  background-color: #e7e8ea;
+  transition: background-color 0.3s ease;
+}
+
+body.scene-focused,
+header.scene-focused,
+footer.scene-focused {
+  background-color: #0f1819;
+  transition: background-color 0.3s ease;
+}
+
+
 
 #background-text.focused {
   font-size: 4rem; /* Zmenší text */
@@ -27,19 +39,10 @@
   z-index: 10; /* Zajištění, že text je nad ostatními elementy */
 }
 
-.homepage-title {
-  position: fixed;
-  top: 50%; /* Pozice titulku na střed */
-  left: 50%;
-  transform: translate(-50%, -50%); /* Centering */
-  font-size: 41vw;
-  font-weight: bold;
-  transition: color 0.5s;
-  z-index: -1;
+header, footer {
+  transition: background-color 0.3s ease;
 }
 
-
-/* Header */
 header {
   position: fixed;
   top: 0;
@@ -50,24 +53,33 @@ header {
   justify-content: space-between;
   align-items: center;
   z-index: 10;
-
 }
 
-.logo {
-  margin: 0;
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 120px;
+  padding: 0px 20px;
+}
+
+/*.logo {
   font-size: 24px;
   font-weight: bold;
   text-align: center;
   flex: 1;
-}
+}*/
 
-.contact-btn {
-  background-color: yellow;
-  border: none;
-  border-radius: 25px;
-  padding: 10px 20px;
-  cursor: pointer;
-}
+  .logo img {
+    height: 40px; /* nebo 50px podle potřeby */
+    width: auto;
+    object-fit: contain;
+    display: block;
+    transition: filter 0.3s ease, transform 0.3s ease;
+    text-align: center;
+  }
+
 
 /* Footer */
 footer {
@@ -87,22 +99,26 @@ footer {
   font-weight: bold;
 }
 
-/* Styl pro homepage-title */
 .homepage-title {
-  position: fixed; /* Zajistí, že titulek zůstane fixovaný na místě */
-  top: 50%; /* Nastaví pozici titulku na střed */
+  position: fixed;
   left: 50%;
-  transform: translate(-50%, -50%); /* Centrování titulku */
+  top: calc(10% - 5vw);
+  transform: translate(-50%, -60%);
   font-size: 41vw;
   font-weight: bold;
-  transition: color 0.5s;
-  z-index: -1; /* Titulek bude na pozadí */
+  font-family: Arial, Helvetica, sans-serif;
+  color: #212529;
+  z-index: -1;
+  pointer-events: none;
 }
+
+
+
 #background-text.focused {
-  font-size: 1.5rem; /* Zmenší text */
+  font-size: 2rem; /* Zmenší text */
   position: absolute;
-  top: 10px; /* Umístí text na začátek stránky */
-  left: 10px; /* Umístí text do levého horního rohu */
+  top: 50px; /* Umístí text na začátek stránky */
+  left: 50px; /* Umístí text do levého horního rohu */
   color: #ffffff; /* Nastaví barvu textu na bílou, když je focused */
   font-weight: bold; /* Volitelně tučný text */
   z-index: 10; /* Zajistí, že text bude nad ostatními elementy */
@@ -118,45 +134,305 @@ footer {
   border-radius: 50%;
   cursor: pointer;
   transition: transform 0.2s, opacity 0.5s;
+  z-index: 2; /* 👈 nad modelem a titulkem */
 }
 
   .clickable-point:hover {
     transform: scale(1.2);
   }
 
+.hidden {
+  display: none !important;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+  .back-button .circle {
+    background: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+
+  .back-button .arrow-left {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    transform: rotate(135deg);
+    padding: 4px;
+  }
+
+  .back-button .text {
+    color: white;
+    transition: transform 0.3s ease;
+  }
+
+  /* Hover efekt */
+  .back-button:hover .circle,
+  .back-button:hover .text {
+    transform: scale(1.1);
+  }
+
+
 #info-box {
   position: absolute;
-  bottom: 50%;
-  right: 10%;
+  z-index: 5;
+  color: white;
+  width: 100%;
+  padding: 40px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+
+#info-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* === Rozvržení podle pozice === */
+.info-left {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.info-bottom {
+  bottom: 5%;
+  left: 50%;
   transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* === Layout pro dveře === */
+#info-layout-door {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+.info-col {
+  background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 10px;
-  font-size: 1.2rem;
-  width: 300px;
   text-align: center;
-  transition: opacity 0.5s;
+  min-width: 150px;
 }
 
-.hidden {
-  display: none;
+/* Trunk layout */
+#info-layout-trunk {
+  max-width: 500px;
 }
 
-#back-button {
-  position: absolute;
-  bottom: 45%;
-  right: 15%;
-  transform: translateX(-50%);
+/* === Layout pro kapotu === */
+#info-layout-hood {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.info-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+  .contact img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+
+.contact-name {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Bubliny s kontakty */
+.info-contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-box {
+  background: white;
+  color: black;
   padding: 10px 20px;
-  font-size: 1rem;
+  border-radius: 25px;
+  font-weight: bold;
+}
+
+
+
+.close-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   background: black;
   color: white;
+  padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 40px; /* zakulacené jako menu */
+  font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
-  transition: opacity 0.5s;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
-  #back-button:hover {
-    background: gray;
+  .close-button .icon-x {
+    font-size: 1.2rem;
+    line-height: 1;
   }
+
+  .close-button:hover {
+    transform: scale(1.05);
+    background: #333;
+  }
+
+
+/* === OVERLAY === */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f5a623; /* oranžová */
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 60px 40px 40px 40px;
+  box-sizing: border-box;
+  transition: opacity 0.3s ease;
+}
+
+  .menu-overlay.hidden {
+    display: none;
+  }
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+  .menu-button:hover {
+    transform: scale(1.05);
+    background: #333;
+  }
+
+  .menu-button .icon {
+    display: inline-block;
+    width: 16px;
+    height: 12px;
+    position: relative;
+  }
+
+    .menu-button .icon::before,
+    .menu-button .icon::after,
+    .menu-button .icon div {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background-color: currentColor;
+      left: 0;
+    }
+
+    .menu-button .icon div {
+      top: 5px;
+    }
+
+    .menu-button .icon::before {
+      top: 0;
+    }
+
+    .menu-button .icon::after {
+      bottom: 0;
+    }
+
+  /* Výchozí stav (default) */
+  .menu-button.default {
+    background-color: black;
+    color: white;
+  }
+
+  /* Detailní mód (focused) */
+  .menu-button.focused {
+    background-color: white;
+    color: black;
+  }
+
+
+/* === MENU LINKY === */
+.menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.menu-link {
+  font-size: 3rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  color: black;
+  transition: color 0.3s ease;
+}
+
+  .menu-link:hover {
+    color: white;
+  }
+
+/* === FOOTER V MENU === */
+.menu-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: black;
+  border-top: 1px solid black;
+  padding-top: 20px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+
