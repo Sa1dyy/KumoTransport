@@ -105,9 +105,14 @@
   </div>
 
   <!-- Footer -->
-  <footer class="scene-default">
-    <div class="footer-logo">Footer Logo</div>
+  <footer class="scene-default" id="page-footer">
+    <div class="footer-center">
+      <span class="footer-text">On behalf of</span>
+      <img id="footer-logo" src="/uploads/img/ups_logo.png" alt="UPS Logo">
+    </div>
   </footer>
+
+
 
   <!-- Serverové texty do JS -->
   <script>
@@ -121,257 +126,257 @@
 
   <!-- Funkce & Three.js -->
   <script>
-    let scene, camera, renderer, model;
-    let defaultBackgroundColor = "#e7e8ea";
-    let focusBackgroundColor = "#0f1819";
-    let isFocused = false;
+        let scene, camera, renderer, model;
+        let defaultBackgroundColor = "#e7e8ea";
+        let focusBackgroundColor = "#0f1819";
+        let isFocused = false;
 
-    const defaultRotation = Math.PI / 0.55; // výchozí pozice modelu
-    const ROTATIONS = {
-      default: defaultRotation,
-      door: (3 * Math.PI) / 2,   // otočení doprava
-      trunk: Math.PI,      // otočení dozadu
-      hood: 0                // čumák vpřed
-    };
+        const defaultRotation = Math.PI / 0.55; // výchozí pozice modelu
+        const ROTATIONS = {
+          default: defaultRotation,
+          door: (3 * Math.PI) / 2,   // otočení doprava
+          trunk: Math.PI,      // otočení dozadu
+          hood: 0                // čumák vpřed
+        };
 
-    function init() {
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.set(0, 0.8, 5);
+        function init() {
+          scene = new THREE.Scene();
+          camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+          camera.position.set(0, 0.8, 5);
 
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.shadowMap.enabled = true;
-      document.getElementById("car-container").appendChild(renderer.domElement);
+          renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+          renderer.setSize(window.innerWidth, window.innerHeight);
+          renderer.shadowMap.enabled = true;
+          document.getElementById("car-container").appendChild(renderer.domElement);
 
-      const loader = new THREE.GLTFLoader();
-      loader.load("/assets/glb/dodavka.glb", function (gltf) {
-        model = gltf.scene;
-        model.position.y = 0;
-        model.rotation.y = defaultRotation;
-        model.scale.set(0.7, 0.7, 0.7);
-        model.traverse(node => { if (node.isMesh) node.castShadow = true; });
-        scene.add(model);
-        animate();
-      });
+          const loader = new THREE.GLTFLoader();
+          loader.load("/assets/glb/dodavka.glb", function (gltf) {
+            model = gltf.scene;
+            model.position.y = 0;
+            model.rotation.y = defaultRotation;
+            model.scale.set(0.7, 0.7, 0.7);
+            model.traverse(node => { if (node.isMesh) node.castShadow = true; });
+            scene.add(model);
+            animate();
+          });
 
-      const light = new THREE.DirectionalLight(0xffffff, 1);
-      light.position.set(3, 3, 5);
-      light.castShadow = true;
-      scene.add(light);
+          const light = new THREE.DirectionalLight(0xffffff, 1);
+          light.position.set(3, 3, 5);
+          light.castShadow = true;
+          scene.add(light);
 
-      const plane = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.ShadowMaterial({ opacity: 0.5 }));
-      plane.rotation.x = -Math.PI / 2;
-      plane.position.y = -0.1;
-      plane.receiveShadow = true;
-      scene.add(plane);
-    }
+          const plane = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.ShadowMaterial({ opacity: 0.5 }));
+          plane.rotation.x = -Math.PI / 2;
+          plane.position.y = -0.1;
+          plane.receiveShadow = true;
+          scene.add(plane);
+        }
 
-    function animate() {
-      requestAnimationFrame(animate);
-      renderer.render(scene, camera);
-    }
+        function animate() {
+          requestAnimationFrame(animate);
+          renderer.render(scene, camera);
+        }
 
-    function moveToPart(targetRotation, titleText, position, clickedPart) {
-      if (!model) return;
+        function moveToPart(targetRotation, titleText, position, clickedPart) {
+          if (!model) return;
 
-      toggleMenuButtons(false);
+          toggleMenuButtons(false);
 
-      const startRotation = model.rotation.y;
-      const duration = 500;
-      const startTime = performance.now();
+          const startRotation = model.rotation.y;
+          const duration = 500;
+          const startTime = performance.now();
 
-      function animateRotation(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+          function animateRotation(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
 
 
-        let delta = targetRotation - startRotation;
-        delta = ((delta + Math.PI) % (2 * Math.PI)) - Math.PI;
+            let delta = targetRotation - startRotation;
+            delta = ((delta + Math.PI) % (2 * Math.PI)) - Math.PI;
 
-        model.rotation.y = startRotation + delta * progress;
+            model.rotation.y = startRotation + delta * progress;
 
-        if (progress < 1) {
+            if (progress < 1) {
+              requestAnimationFrame(animateRotation);
+            } else {
+              isFocused = true;
+              updateUI(titleText, position, clickedPart);
+              document.getElementById("background-text").textContent = titleText;
+              document.getElementById("back-button").classList.remove("hidden");
+            }
+          }
+
           requestAnimationFrame(animateRotation);
-        } else {
-          isFocused = true;
-          updateUI(titleText, position, clickedPart);
-          document.getElementById("background-text").textContent = titleText;
-          document.getElementById("back-button").classList.remove("hidden");
         }
-      }
-
-      requestAnimationFrame(animateRotation);
-    }
 
 
-    function resetView() {
-      if (!model) return;
+        function resetView() {
+          if (!model) return;
 
-      const startRotation = model.rotation.y;
-      const target = Math.PI / 0.55;
-      const duration = 500;
-      const startTime = performance.now();
+          const startRotation = model.rotation.y;
+          const target = Math.PI / 0.55;
+          const duration = 500;
+          const startTime = performance.now();
 
-      function animateRotation(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        model.rotation.y = startRotation + (target - startRotation) * progress;
+          function animateRotation(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            model.rotation.y = startRotation + (target - startRotation) * progress;
 
-        if (progress < 1) {
+            if (progress < 1) {
+              requestAnimationFrame(animateRotation);
+            } else {
+              isFocused = false;
+              updateUI();
+              document.getElementById("background-text").textContent = "KUMO";
+              document.getElementById("back-button").classList.add("hidden");
+            }
+          }
+
           requestAnimationFrame(animateRotation);
+        }
+        function updateUI(text = "", position = "", clickedPart = "") {
+          const body = document.body;
+          const header = document.querySelector("header");
+          const footer = document.querySelector("footer");
+          const backgroundText = document.getElementById("background-text");
+          const infoBox = document.getElementById("info-box");
+          const infoTitle = document.getElementById("info-title");
+          const clickablePoints = document.querySelectorAll(".clickable-point");
+          const menuButton = document.getElementById("menu-button");
+
+          // Skryj všechny layouty
+          document.querySelectorAll(".info-layout").forEach(layout => layout.classList.add("hidden"));
+
+          infoBox.classList.remove("info-left", "info-right", "info-bottom", "info-top");
+
+          document.getElementById("page-footer").style.display = isFocused ? "none" : "block";
+
+          if (position) {
+            infoBox.classList.add(`info-${position}`);
+          }
+
+              if (isFocused) {
+          // Barvy
+          body.classList.replace("scene-default", "scene-focused");
+          header.classList.replace("scene-default", "scene-focused");
+          footer.classList.replace("scene-default", "scene-focused");
+
+          backgroundText.style.display = "none"; // 🟡 SKRÝT název stránky
+          clickablePoints.forEach(p => p.style.display = "none");
+          infoBox.classList.remove("hidden");
+
+          document.getElementById("site-logo").src = "/uploads/img/GroupLogoWhite.png";
+
+          menuButton.classList.replace("default", "focused");
+
+          // ✨ Dynamické rozvržení
+          if (clickedPart === "hood") {
+            infoTitle.style.display = "none";
+          } else {
+            infoTitle.style.display = "block";
+            infoTitle.textContent = text;
+          }
+
+          if (clickedPart === "door") {
+            document.getElementById("info-layout-door").classList.remove("hidden");
+            document.querySelector("#info-layout-door .info-main-text").textContent = kumoTexts.door;
+          } else if (clickedPart === "trunk") {
+            document.getElementById("info-layout-trunk").classList.remove("hidden");
+            document.getElementById("info-text-trunk").textContent = kumoTexts.trunk;
+          } else if (clickedPart === "hood") {
+            document.getElementById("info-layout-hood").classList.remove("hidden");
+          }
+
         } else {
-          isFocused = false;
-          updateUI();
-          document.getElementById("background-text").textContent = "KUMO";
-          document.getElementById("back-button").classList.add("hidden");
+          body.classList.replace("scene-focused", "scene-default");
+          header.classList.replace("scene-focused", "scene-default");
+          footer.classList.replace("scene-focused", "scene-default");
+
+          backgroundText.style.display = "block"; // 🟢 ZPĚT zobrazit v default módu
+          backgroundText.textContent = "KUMO";
+          clickablePoints.forEach(p => p.style.display = "block");
+          infoBox.classList.add("hidden");
+
+          document.getElementById("site-logo").src = "/uploads/img/GroupLogoBlack.png";
+
+          menuButton.classList.replace("focused", "default");
         }
-      }
-
-      requestAnimationFrame(animateRotation);
-    }
-    function updateUI(text = "", position = "", clickedPart = "") {
-      const body = document.body;
-      const header = document.querySelector("header");
-      const footer = document.querySelector("footer");
-      const backgroundText = document.getElementById("background-text");
-      const infoBox = document.getElementById("info-box");
-      const infoTitle = document.getElementById("info-title");
-      const clickablePoints = document.querySelectorAll(".clickable-point");
-      const menuButton = document.getElementById("menu-button");
-
-      // Skryj všechny layouty
-      document.querySelectorAll(".info-layout").forEach(layout => layout.classList.add("hidden"));
-
-      infoBox.classList.remove("info-left", "info-right", "info-bottom", "info-top");
-
-      if (position) {
-        infoBox.classList.add(`info-${position}`);
-      }
-
-      if (isFocused) {
-        // Barvy
-        body.classList.replace("scene-default", "scene-focused");
-        header.classList.replace("scene-default", "scene-focused");
-        footer.classList.replace("scene-default", "scene-focused");
-
-        backgroundText.style.color = "#ffffff";
-        clickablePoints.forEach(p => p.style.display = "none");
-        infoBox.classList.remove("hidden");
-        backgroundText.classList.add("focused");
-
-        document.getElementById("site-logo").src = "/uploads/img/GroupLogoWhite.png";
-
-        menuButton.classList.replace("default", "focused");
-
-        // ✨ Dynamické rozvržení
-        infoTitle.textContent = text;
-
-        if (clickedPart === "door") {
-          document.getElementById("info-layout-door").classList.remove("hidden");
-          document.querySelector("#info-layout-door .info-main-text").textContent = kumoTexts.door;
-        } else if (clickedPart === "trunk") {
-          document.getElementById("info-layout-trunk").classList.remove("hidden");
-          document.getElementById("info-text-trunk").textContent = kumoTexts.trunk;
-        } else if (clickedPart === "hood") {
-          document.getElementById("info-layout-hood").classList.remove("hidden");
-          infoTitle.style.display = "none";
-
-          // Text už je statický (fotky + jména + boxy), lze upravit, pokud budeš chtít dynamicky
-        }
-
-      } else {
-        body.classList.replace("scene-focused", "scene-default");
-        header.classList.replace("scene-focused", "scene-default");
-        footer.classList.replace("scene-focused", "scene-default");
-
-        infoTitle.style.display = "block";
-        infoTitle.textContent = text;
-
-        backgroundText.style.color = "#212529";
-        clickablePoints.forEach(p => p.style.display = "block");
-        infoBox.classList.add("hidden");
-        backgroundText.classList.remove("focused");
-
-        document.getElementById("site-logo").src = "/uploads/img/GroupLogoBlack.png";
-
-        menuButton.classList.replace("focused", "default");
-      }
     }
 
-    // ⏳ INIT
-    window.onload = init;
+        // ⏳ INIT
+        window.onload = init;
 
-    // 📌 Interakce klikacích bodů
-    document.getElementById("door-point").addEventListener("click", e => {
-      moveToPart(ROTATIONS.door, e.target.dataset.titleText, "bottom", "door");
-    });
+        // 📌 Interakce klikacích bodů
+        document.getElementById("door-point").addEventListener("click", e => {
+          moveToPart(ROTATIONS.door, e.target.dataset.titleText, "bottom", "door");
+        });
 
-    document.getElementById("trunk-point").addEventListener("click", e => {
-      moveToPart(ROTATIONS.trunk, e.target.dataset.titleText, "left", "trunk");
-    });
+        document.getElementById("trunk-point").addEventListener("click", e => {
+          moveToPart(ROTATIONS.trunk, e.target.dataset.titleText, "left", "trunk");
+        });
 
-    document.getElementById("hood-point").addEventListener("click", e => {
-      moveToPart(ROTATIONS.hood, e.target.dataset.titleText, "left", "hood");
-    });
+        document.getElementById("hood-point").addEventListener("click", e => {
+          moveToPart(ROTATIONS.hood, e.target.dataset.titleText, "left", "hood");
+        });
 
 
-    document.getElementById("back-button").addEventListener("click", resetView);
+        document.getElementById("back-button").addEventListener("click", resetView);
 
-    // 📂 MENU logika
-    const menuBtn = document.getElementById("menu-button");
-    const closeBtn = document.getElementById("close-menu");
-    const overlay = document.getElementById("menu-overlay");
+        // 📂 MENU logika
+        const menuBtn = document.getElementById("menu-button");
+        const closeBtn = document.getElementById("close-menu");
+        const overlay = document.getElementById("menu-overlay");
 
-    function toggleMenuButtons(show) {
-      overlay.classList.toggle("hidden", !show);
-      menuBtn.classList.toggle("hidden", show);
-      closeBtn.classList.toggle("hidden", !show);
-    }
-
-    menuBtn.onclick = () => toggleMenuButtons(true);
-    closeBtn.onclick = () => toggleMenuButtons(false);
-
-    // 🧭 Navigace z menu
-    document.querySelectorAll(".menu-link").forEach(link => {
-      link.addEventListener("click", () => {
-        let rot = 0, text = "", title = link.dataset.title, position = "", part = "";
-
-        switch (link.dataset.part) {
-          case "about":
-            rot = ROTATIONS.hood;
-            text = kumoTexts.hood;
-            title = "ABOUT US";
-            position = "left";
-            part = "hood";
-            break;
-          case "services":
-            rot = ROTATIONS.door;
-            text = kumoTexts.door;
-            title = "SERVICES";
-            position = "bottom";
-            part = "door";
-            break;
-          case "contact":
-            rot = ROTATIONS.trunk;
-            text = kumoTexts.trunk;
-            title = "CONTACT";
-            position = "left";
-            part = "trunk";
-            break;
-          case "investors":
-            rot = defaultRotation;
-            text = kumoTexts.investors;
-            title = "PRO INVESTORY";
-            position = "right"; // nastav podle potřeby
-            part = "investors"; // případně přidej nový layout
-            break;
+        function toggleMenuButtons(show) {
+          overlay.classList.toggle("hidden", !show);
+          menuBtn.classList.toggle("hidden", show);
+          closeBtn.classList.toggle("hidden", !show);
         }
 
-        toggleMenuButtons(false);
-        moveToPart(rot, title, position, part);
-      });
-    });
+        menuBtn.onclick = () => toggleMenuButtons(true);
+        closeBtn.onclick = () => toggleMenuButtons(false);
+
+        // 🧭 Navigace z menu
+        document.querySelectorAll(".menu-link").forEach(link => {
+          link.addEventListener("click", () => {
+            let rot = 0, text = "", title = link.dataset.title, position = "", part = "";
+
+            switch (link.dataset.part) {
+              case "about":
+                rot = ROTATIONS.hood;
+                text = kumoTexts.hood;
+                title = "ABOUT US";
+                position = "left";
+                part = "hood";
+                break;
+              case "services":
+                rot = ROTATIONS.door;
+                text = kumoTexts.door;
+                title = "SERVICES";
+                position = "bottom";
+                part = "door";
+                break;
+              case "contact":
+                rot = ROTATIONS.trunk;
+                text = kumoTexts.trunk;
+                title = "CONTACT";
+                position = "left";
+                part = "trunk";
+                break;
+              case "investors":
+                rot = defaultRotation;
+                text = kumoTexts.investors;
+                title = "PRO INVESTORY";
+                position = "right"; // nastav podle potřeby
+                part = "investors"; // případně přidej nový layout
+                break;
+            }
+
+            toggleMenuButtons(false);
+            moveToPart(rot, title, position, part);
+          });
+        });
 
   </script>
 </body>

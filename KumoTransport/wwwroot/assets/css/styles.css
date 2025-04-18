@@ -6,7 +6,7 @@
 #scene-container {
   position: relative;
   width: 100vw;
-  height: 100vh;
+  height: auto;
   z-index: 0;
 }
 
@@ -72,7 +72,7 @@ header {
 }*/
 
   .logo img {
-    height: 40px; /* nebo 50px podle potřeby */
+    height: 60px;
     width: auto;
     object-fit: contain;
     display: block;
@@ -81,23 +81,38 @@ header {
   }
 
 
-/* Footer */
 footer {
   position: fixed;
   bottom: 0;
+  left: 0;
   width: 100%;
-  background-color: white;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: inherit;
+  text-align: center;
+  padding: 10px 0;
   z-index: 10;
 }
 
-.footer-logo {
-  font-size: 18px;
-  font-weight: bold;
+.footer-center {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 30px;
+  color: #555;
 }
+
+#footer-logo {
+  height: 60px;
+  width: auto;
+}
+
+/* Skrytí footeru ve focused nebo menu režimu */
+body.scene-focused footer,
+#menu-overlay:not(.hidden) ~ footer {
+  display: none !important;
+}
+
+
 
 .homepage-title {
   position: fixed;
