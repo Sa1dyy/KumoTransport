@@ -44,41 +44,42 @@ header, footer {
 }
 
 header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   position: fixed;
   top: 0;
   width: 100%;
   background-color: white;
   padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   z-index: 10;
 }
 
+/* Zachovej šířky levé a pravé části stále stejné */
 .header-left,
 .header-right {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-width: 120px;
+  width: 200px; /* pevná šířka pro vyrovnání */
   padding: 0px 20px;
 }
 
-/*.logo {
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  flex: 1;
-}*/
+/* Přidej středový blok, který bude centrovat logo */
+.header-center {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .logo img {
-    height: 60px;
-    width: auto;
-    object-fit: contain;
-    display: block;
-    transition: filter 0.3s ease, transform 0.3s ease;
-    text-align: center;
-  }
+.logo img {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
 
 
 footer {
@@ -142,19 +143,89 @@ body.scene-focused footer,
 
 .clickable-point {
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   background-color: white;
   border: 2px solid black;
   border-radius: 50%;
   cursor: pointer;
-  transition: transform 0.2s, opacity 0.5s;
-  z-index: 2; /* 👈 nad modelem a titulkem */
+  transition: transform 0.3s, background-color 0.3s;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+
   .clickable-point:hover {
+    background-color: #f5a623;
     transform: scale(1.2);
   }
+
+  .clickable-point .icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: black;
+    display: none;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+
+
+  .clickable-point:hover .icon {
+    display: block;
+  }
+
+  .clickable-point .label {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f5a623;
+    color: white;
+    font-size: 0.75rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    display: none;
+    z-index: 2;
+  }
+
+
+  .clickable-point:hover .icon,
+  .clickable-point:hover .label {
+    display: block;
+  }
+
+
+/* Pulzující kruhy */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+}
+
+.pulse-circle {
+  position: absolute;
+  border: 1px solid white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  pointer-events: none;
+  z-index: 2;
+  animation: pulse-ring 1.5s ease-out;
+}
+
 
 .hidden {
   display: none !important;
@@ -211,7 +282,7 @@ body.scene-focused footer,
   z-index: 5;
   color: white;
   width: 100%;
-  padding: 40px;
+  padding: 20px 40px 10px 40px;
   box-sizing: border-box;
   transition: all 0.3s ease;
 }
@@ -244,70 +315,193 @@ body.scene-focused footer,
 /* === Layout pro dveře === */
 #info-layout-door {
   display: flex;
-  gap: 30px;
-  justify-content: center;
+  align-items: flex-start;
+  gap: 80px; /* větší mezery mezi bloky */
+  justify-content: flex-start;
+  padding-top: 10px; /* snížený padding */
+  max-width: 1800px; /* více do šířky */
+  margin: -40px auto 0 auto; /* výš a vystředěno */
+  flex-wrap: wrap;
 }
 
-.info-col {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  min-width: 150px;
+
+.info-title-left {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  white-space: nowrap;
+  min-width: 200px;
 }
 
-/* Trunk layout */
+.info-main-text {
+  font-size: 1.4rem;
+  color: white;
+  max-width: 900px; /* víc prostoru pro hlavní text */
+  line-height: 1.6;
+}
+
+
+.info-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: white;
+  min-width: 220px;
+}
+
+.info-stat-main {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #f5a623;
+}
+
+.info-stat-sub {
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-top: 4px;
+}
+
+@media (min-width: 1600px) {
+  .trunk-left {
+    margin-left: 2vw;
+  }
+
+  .trunk-right {
+    flex-basis: 450px;
+  }
+}
+
+
 #info-layout-trunk {
-  max-width: 500px;
+  position: relative;
+  width: 100%;
+  height: 100vh; /* celá výška pro možnost vystředění */
 }
+
+
+
+/* Levá část (logo + text) */
+.trunk-left {
+  position: absolute;
+  left: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 220px;
+  text-align: center;
+  z-index: 2;
+}
+
+.trunk-logo {
+  height: 100px;
+  width: auto;
+  margin-bottom: 10px;
+}
+
+.trunk-subtitle {
+  font-size: 1.1rem;
+  color: #aaa;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+
+/* Pravá část – střed obrazovky */
+.trunk-right {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 500px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  text-align: center;
+  z-index: 2;
+}
+
+.trunk-title {
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.trunk-main-text {
+  font-size: 1.4rem;
+  color: white;
+  line-height: 1.8;
+}
+
+
 
 /* === Layout pro kapotu === */
 #info-layout-hood {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  gap: 100px; /* větší mezera mezi levým a pravým blokem */
+  padding: 20px 40px;
 }
 
-.info-contacts {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.contact {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-  .contact img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-  }
-
-.contact-name {
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-/* Bubliny s kontakty */
 .info-contact-details {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
+  align-items: flex-start;
 }
 
 .contact-box {
   background: white;
   color: black;
-  padding: 10px 20px;
-  border-radius: 25px;
+  padding: 15px 30px;
+  border-radius: 30px;
   font-weight: bold;
+  font-size: 1.5rem;
 }
 
+.info-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  align-items: flex-start;
+}
 
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+  .contact img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 12px rgba(0,0,0,0.25);
+  }
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: white;
+}
+
+.contact-role {
+  font-size: 1.1rem;
+  color: #cccccc;
+  margin-top: 6px;
+}
 
 .close-button {
   display: flex;
