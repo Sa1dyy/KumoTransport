@@ -7,13 +7,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="~/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.min.js"></script>
   <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+  <title>KUMO</title>
 </head>
 <body class="scene-default">
 
-  <!-- Header -->
+  <!-- HEADER -->
   <header class="scene-default">
     <div class="header-left">
       <button id="back-button" class="back-button hidden">
@@ -33,495 +35,522 @@
         MENU
         <span class="icon">
           <div></div>
+          <div></div>
+          <div></div>
         </span>
       </button>
+
       <button id="close-menu" class="close-button hidden">
         <span class="text">CLOSE</span>
-        <span class="icon-x">✕</span>
+        <span class="icon-x">&times;</span>
       </button>
     </div>
   </header>
 
-  <!-- Hlavní scéna -->
-  <div id="scene-container" class="light-mode">
-
-    <!-- Menu overlay -->
-    <div id="menu-overlay" class="menu-overlay hidden">
-      <div class="menu-links">
-        <div class="menu-link" data-part="about" data-title="ABOUT US">ABOUT US</div>
-        <div class="menu-link" data-part="services" data-title="SERVICES">SERVICES</div>
-        <div class="menu-link" data-part="contact" data-title="CONTACT">CONTACT</div>
-        <div class="menu-link" data-part="investors" data-title="PRO INVESTORY">PRO INVESTORY</div>
+  <!-- MENU OVERLAY -->
+  <div id="menu-overlay" class="menu-overlay hidden">
+    <!-- Horní řádek: přepínače, logo, close -->
+    <div class="menu-header">
+      <div class="language-switch">
+        <button>ČEŠTINA</button>
+        <button>DEUTSCH</button>
       </div>
-      <footer class="menu-footer">
-        <div>KUMO TRANSPORT<br>Kaprova 42/14<br>110 00 Praha</div>
-        <div>IČO: 19944705<br>DIČ: CZ19944705</div>
-        <div>info@kumotransport.cz<br>+420 723 220 484</div>
-      </footer>
-    </div>
-
-    <h1 class="homepage-title" id="background-text">KUMO</h1>
-    <div id="car-container"></div>
-
-    <!-- Klikací body -->
-    <div class="clickable-point" id="door-point" data-title-text="About us" style="top: 45%; left: 50%;">
-      <div class="icon">📦</div>
-      <div class="label">About us</div>
-    </div>
-
-    <div class="clickable-point" id="trunk-point" data-title-text="Services" data-position="left" data-text="@Model.TrunkText?.Value" style="top: 50%; left: 60%;">
-      <div class="icon">🔧</div>
-      <div class="label">Services</div>
-    </div>
-
-    <div class="clickable-point" id="hood-point" data-title-text="Contacts" data-position="bottom" data-text="@Model.HoodText?.Value" style="top: 65%; left: 30%;">
-      <div class="icon">📞</div>
-      <div class="label">Contacts</div>
-    </div>
-
-    <!-- Info box -->
-    <div id="info-box" class="hidden">
-      <!-- Titulek -->
-      <h2 id="info-title"></h2>
-      <!-- Layout pro dveře (4 sloupce) -->
-      <div id="info-layout-door" class="info-layout hidden">
-        <div class="info-title-left" id="info-title-left">Services</div>
-        <div class="info-main-text" id="info-main-text"></div>
-        <div class="info-stat">
-          <div class="info-stat-main">10+</div>
-          <div class="info-stat-sub">více jak 10 let zkušeností</div>
-        </div>
-        <div class="info-stat">
-          <div class="info-stat-main">700 000+</div>
-          <div class="info-stat-sub">zásilek ročně</div>
-        </div>
+      <div class="menu-logo">
+        <img src="/uploads/img/GroupLogoBlack.png" alt="Logo" />
       </div>
-
-
-      <!-- Layout pro kufr -->
-      <div id="info-layout-trunk" class="info-layout hidden">
-        <div class="trunk-left">
-          <img src="/uploads/img/ups_logo.png" alt="UPS Logo" class="trunk-logo" />
-          <div class="trunk-subtitle">ON BEHALF OF UPS</div>
-        </div>
-        <div class="trunk-right">
-          <div class="trunk-title" id="trunk-title"></div>
-          <div class="trunk-main-text" id="info-text-trunk"></div>
-        </div>
-      </div>
-
-
-      <div id="info-layout-hood" class="info-layout hidden">
-        <!-- Levá strana: kontaktní boxy -->
-        <div class="info-contact-details">
-          <div class="contact-box">info@kumotransport.cz</div>
-          <div class="contact-box">+420 723 220 484</div>
-        </div>
-
-        <!-- Pravá strana: kontakty s fotkami -->
-        <div class="info-contacts">
-          <div class="contact">
-            <img src="/uploads/img/kubin.jpg" alt="Kontakt 1">
-            <div class="contact-info">
-              <div class="contact-name">Jakub Kubín</div>
-              <div class="contact-role">Chief operating officer</div>
-            </div>
-          </div>
-          <div class="contact">
-            <img src="/uploads/img/motl.jpg" alt="Kontakt 2">
-            <div class="contact-info">
-              <div class="contact-name">Michal Motl</div>
-              <div class="contact-role">Chief financial officer</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
+      <button class="menu-close-button" onclick="toggleMenuButtons(false)">
+        CLOSE <span class="icon-x">&times;</span>
+      </button>
     </div>
 
-    <!-- Footer -->
-    <footer class="scene-default" id="page-footer">
-      <div class="footer-center">
-        <span class="footer-text">On behalf of</span>
-        <img id="footer-logo" src="/uploads/img/ups_logo.png" alt="UPS Logo">
+    <!-- Menu odkazy vlevo -->
+    <div class="menu-links">
+      <div class="menu-link" data-part="about" data-title="ABOUT US">ABOUT US</div>
+      <div class="menu-link" data-part="services" data-title="SERVICES">SERVICES</div>
+      <div class="menu-link" data-part="contact" data-title="CONTACT">CONTACT</div>
+      <div class="menu-link" data-part="investors" data-title="PRO INVESTORY">PRO INVESTORY</div>
+    </div>
+
+    <!-- Spodní patička -->
+    <footer class="menu-footer">
+      <div class="footer-line"></div>
+      <div class="footer-content">
+        <div class="footer-block">
+          <div class="footer-title">KUMO TRANSPORT</div>
+        </div>
+
+        <div class="footer-block">
+          <div>Kaprova 42/14</div>
+          <div>110 00 Praha</div>
+        </div>
+
+        <div class="footer-block">
+          <div>IČO: 19944705</div>
+          <div>DIČ: CZ19944705</div>
+        </div>
+
+        <div class="footer-divider"></div>
+
+        <div class="footer-block">
+          <div>info@kumotransport.cz</div>
+          <div>+420 723 220 484</div>
+        </div>
       </div>
     </footer>
+  </div>
+
+
+  <h1 class="homepage-title" id="background-text">KUMO</h1>
+  <div id="car-container"></div>
+
+  <!-- CLICKABLE POINTS -->
+  <div class="clickable-point" id="door-point" data-title-text="About us" style="top: 45%; left: 50%;">
+    <div class="icon">📦</div>
+    <div class="label">About us</div>
+  </div>
+  <div class="clickable-point" id="trunk-point" data-title-text="Services" data-position="left" style="top: 50%; left: 60%;">
+    <div class="icon">🔧</div>
+    <div class="label">Services</div>
+  </div>
+  <div class="clickable-point" id="hood-point" data-title-text="Contacts" data-position="bottom" style="top: 65%; left: 30%;">
+    <div class="icon">📞</div>
+    <div class="label">Contacts</div>
+  </div>
+
+  <!-- INFO BOX -->
+  <div id="info-box" class="hidden">
+    <h2 id="info-title"></h2>
+    <div id="info-layout-door" class="info-layout hidden">
+      <div class="info-title-left" id="info-title-left">Services</div>
+      <div class="info-main-text" id="info-main-text"></div>
+      <div class="info-stat">
+        <div class="info-stat-main">10+</div>
+        <div class="info-stat-sub">více jak 10 let zkušeností</div>
+      </div>
+      <div class="info-stat">
+        <div class="info-stat-main">700 000+</div>
+        <div class="info-stat-sub">zásilek ročně</div>
+      </div>
+    </div>
+    <div id="info-layout-trunk" class="info-layout hidden">
+      <div class="trunk-left">
+        <img src="/uploads/img/ups_logo.png" alt="UPS Logo" class="trunk-logo" />
+        <div class="trunk-subtitle">ON BEHALF OF UPS</div>
+      </div>
+      <div class="trunk-right">
+        <div class="trunk-title" id="trunk-title"></div>
+        <div class="trunk-main-text" id="info-text-trunk"></div>
+      </div>
+    </div>
+    <div id="info-layout-hood" class="info-layout hidden">
+      <div class="info-contact-details">
+        <div class="contact-box">info@kumotransport.cz</div>
+        <div class="contact-box">+420 723 220 484</div>
+      </div>
+      <div class="info-contacts">
+        <div class="contact">
+          <img src="/uploads/img/kubin.jpg" alt="Kontakt 1">
+          <div class="contact-info">
+            <div class="contact-name">Jakub Kubín</div>
+            <div class="contact-role">Chief operating officer</div>
+          </div>
+        </div>
+        <div class="contact">
+          <img src="/uploads/img/motl.jpg" alt="Kontakt 2">
+          <div class="contact-info">
+            <div class="contact-name">Michal Motl</div>
+            <div class="contact-role">Chief financial officer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <footer class="scene-default" id="page-footer">
+    <div class="footer-center">
+      <span class="footer-text">On behalf of</span>
+      <img id="footer-logo" src="/uploads/img/ups_logo.png" alt="UPS Logo">
+    </div>
+  </footer>
 
 
 
-    <!-- Serverové texty do JS -->
-    <script>
-      const kumoTexts = {
-        door: @Html.Raw(Json.Serialize(Model.DoorText?.Value ?? "")),
-        trunk: @Html.Raw(Json.Serialize(Model.TrunkText?.Value ?? "")),
-        hood: @Html.Raw(Json.Serialize(Model.HoodText?.Value ?? "")),
-        investors: "Zde bude investorský text"
-      };
-    </script>
+  <!-- Serverové texty do JS -->
+  <script>
+    const kumoTexts = {
+      door: @Html.Raw(Json.Serialize(Model.DoorText?.Value ?? "")),
+      trunk: @Html.Raw(Json.Serialize(Model.TrunkText?.Value ?? "")),
+      hood: @Html.Raw(Json.Serialize(Model.HoodText?.Value ?? "")),
+      investors: "Zde bude investorský text"
+    };
+  </script>
 
-    <!-- Funkce & Three.js -->
-    <script>
-          let scene, camera, renderer, model;
-          let defaultBackgroundColor = "#e7e8ea";
-          let focusBackgroundColor = "#0f1819";
-          let isFocused = false;
+  <script>
+    // === Globální proměnné ===
+    let scene, camera, renderer, model, mixer, trunkAnimation;
+    let isFocused = false;
+    let isTrunkOpen = false;
+    const clock = new THREE.Clock();
+    const defaultRotation = Math.PI / 0.55;
+    const ROTATIONS = {
+      default: defaultRotation,
+      door: (3 * Math.PI) / 2,
+      trunk: Math.PI,
+      hood: 0
+    };
 
-          let animationMixer = null;
-          let isTrunkOpen = false;
-          let mixer;
-          let trunkAnimation;
+    // === Inicializace scény ===
+        function init() {
+      scene = new THREE.Scene();
 
-          const defaultRotation = Math.PI / 0.55; // výchozí pozice modelu
-          const ROTATIONS = {
-            default: defaultRotation,
-            door: (3 * Math.PI) / 2,   // otočení doprava
-            trunk: Math.PI,      // otočení dozadu
-            hood: 0                // čumák vpřed
-          };
+      camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 0.8, 5);
 
-          function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 0.8, 5);
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.shadowMap.enabled = true;
 
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.shadowMap.enabled = true;
-            renderer.toneMapping = THREE.ACESFilmicToneMapping;
-            renderer.toneMappingExposure = 1.2;
+      // ⚠️ Jemnější tone mapping
+      renderer.toneMapping = THREE.ReinhardToneMapping;
+      renderer.toneMappingExposure = 0.9;
 
-            document.getElementById("car-container").appendChild(renderer.domElement);
+      document.getElementById("car-container").appendChild(renderer.domElement);
 
-            const loader = new THREE.GLTFLoader();
-            loader.load("/assets/glb/van.glb", function (gltf) {
-              model = gltf.scene;
-              model.position.y = 0;
-              model.rotation.y = defaultRotation;
-              model.scale.set(0.7, 0.7, 0.7);
-              model.traverse(node => { if (node.isMesh) node.castShadow = true; });
-              scene.add(model);
+      // === NASVÍCENÍ ===
+      const light = new THREE.DirectionalLight(0xffffff, 2);
+      light.position.set(5, 5, 5);
+      light.castShadow = true;
 
-            if (gltf.animations.length > 0) {
-              mixer = new THREE.AnimationMixer(model);
-              const fullClip = gltf.animations[0];
+      light.shadow.mapSize.set(1024, 1024);
+      light.shadow.bias = -0.0001;
+      scene.add(light);
 
-              const duration = fullClip.duration;
-              const start = duration - 3;
-              const end = duration;
+      const ambient = new THREE.AmbientLight(0xffffff, 1.5);
+      scene.add(ambient);
 
-              const truncatedClip = THREE.AnimationUtils.subclip(fullClip, 'openTrunkTrimmed', start * 30, end * 30);
+      const backLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      backLight.position.set(-5, 3, -3);
+      scene.add(backLight);
 
-              trunkAnimation = mixer.clipAction(truncatedClip);
-              trunkAnimation.clampWhenFinished = true;
-              trunkAnimation.loop = THREE.LoopOnce;
+      // === STÍNOVÁ ROVINA ===
+      const plane = new THREE.Mesh(
+        new THREE.PlaneGeometry(10, 10),
+        new THREE.ShadowMaterial({ opacity: 0.3 }) // jemnější stín
+      );
+      plane.rotation.x = -Math.PI / 2;
+      plane.position.y = -0.1;
+      plane.receiveShadow = true;
+      scene.add(plane);
+
+      // === NAČTENÍ MODELU ===
+      const loader = new THREE.GLTFLoader();
+      loader.load("/assets/glb/van.glb", function (gltf) {
+        model = gltf.scene;
+        model.position.y = 0;
+        model.rotation.y = Math.PI / 0.55;
+        model.scale.set(0.7, 0.7, 0.7);
+
+        // ⚠️ UPRAVA MATERIÁLŮ
+        model.traverse((node) => {
+          if (node.isMesh) {
+            node.castShadow = true;
+
+            if (node.material && node.material.metalness !== undefined) {
+              node.material.roughness = 0.4;     // zmatnění
+              node.material.metalness = 0.4;     // méně kovový
+              node.material.needsUpdate = true;
             }
-
-
-            animate();
-          });
-
-
-
-
-                // Předchozí světlo
-             const light = new THREE.DirectionalLight(0xffffff, 4);
-             light.position.set(3, 3, 5);
-             light.castShadow = true;
-             scene.add(light);
-
-             // Ambientní světlo (pro vyplnění stínů)
-             const ambient = new THREE.AmbientLight(0xffffff, 2); // 0.5 = poloviční intenzita
-             scene.add(ambient);
-
-             // Druhé směrové světlo z opačné strany
-             const backLight = new THREE.DirectionalLight(0xffffff, 1);
-             backLight.position.set(-3, -3, 5);
-             scene.add(backLight);
-
-
-            const plane = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.ShadowMaterial({ opacity: 0.5 }));
-            plane.rotation.x = -Math.PI / 2;
-            plane.position.y = -0.1;
-            plane.receiveShadow = true;
-            scene.add(plane);
           }
+        });
 
-          const clock = new THREE.Clock();
+        scene.add(model);
 
-         function animate() {
-          requestAnimationFrame(animate);
-          const delta = clock.getDelta();
-          if (mixer) mixer.update(delta);
-          renderer.render(scene, camera);
+        // ANIMACE KUFRU
+        if (gltf.animations.length > 0) {
+          mixer = new THREE.AnimationMixer(model);
+          const fullClip = gltf.animations[0];
+          const duration = fullClip.duration;
+          const start = duration - 3;
+          const end = duration;
+
+          const truncatedClip = THREE.AnimationUtils.subclip(fullClip, "openTrunkTrimmed", start * 30, end * 30);
+          trunkAnimation = mixer.clipAction(truncatedClip);
+          trunkAnimation.clampWhenFinished = true;
+          trunkAnimation.loop = THREE.LoopOnce;
         }
 
+        animate();
+      });
+    }
 
-        function moveToPart(targetRotation, titleText, position, clickedPart) {
-        if (!model) return;
 
-        toggleMenuButtons(false);
+    function animate() {
+      requestAnimationFrame(animate);
+      const delta = clock.getDelta();
+      if (mixer) mixer.update(delta);
+      renderer.render(scene, camera);
+    }
 
-        const startRotation = model.rotation.y;
-        const duration = 500;
-        const startTime = performance.now();
+    function normalizeAngle(angle) {
+      return ((angle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+    }
 
-        function animateRotation(currentTime) {
-          const elapsed = currentTime - startTime;
-          const progress = Math.min(elapsed / duration, 1);
+    function moveToPart(targetRotation, titleText, position, clickedPart) {
+      if (!model) return;
 
-          let delta = targetRotation - startRotation;
-          delta = ((delta + Math.PI) % (2 * Math.PI)) - Math.PI;
+      const trunkRight = document.querySelector("#info-layout-trunk .trunk-right");
 
-          model.rotation.y = startRotation + delta * progress;
+      const startRotation = model.rotation.y;
+      const duration = 500;
+      const startTime = performance.now();
 
-          if (progress < 1) {
-            requestAnimationFrame(animateRotation);
-          } else {
-            finishFocusTransition();
-          }
+      const normalizedStart = normalizeAngle(startRotation);
+      const normalizedTarget = normalizeAngle(targetRotation);
+      let delta = normalizedTarget - normalizedStart;
+      if (delta > Math.PI) delta -= 2 * Math.PI;
+      if (delta < -Math.PI) delta += 2 * Math.PI;
+
+      function animateRotation(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        model.rotation.y = startRotation + delta * progress;
+
+        if (progress < 1) {
+          requestAnimationFrame(animateRotation);
+        } else {
+          finishFocusTransition();
         }
+      }
 
-        function finishFocusTransition() {
+      function finishFocusTransition() {
+        document.getElementById("info-box").style.visibility = "visible";
         isFocused = true;
         updateUI(titleText, position, clickedPart);
         document.getElementById("background-text").textContent = titleText;
         document.getElementById("back-button").classList.remove("hidden");
 
-        if (clickedPart === "trunk" && trunkAnimation && !isTrunkOpen) {
-              trunkAnimation.reset();
-      trunkAnimation.play();
-      isTrunkOpen = true;
+        if (clickedPart === "trunk" && trunkAnimation) {
+          trunkAnimation.reset();
+          trunkAnimation.play();
+          isTrunkOpen = true;
 
-      // Dočasně skryj pravý text
+          setTimeout(() => {
+            if (trunkRight) trunkRight.classList.add("visible");
+          }, 500);
+        }
+      }
+
+      requestAnimationFrame(animateRotation);
+    }
+
+    function updateUI(text = "", position = "", clickedPart = "") {
+      const body = document.body;
+      const header = document.querySelector("header");
+      const footer = document.querySelector("footer");
+      const backgroundText = document.getElementById("background-text");
+      const infoBox = document.getElementById("info-box");
+      const infoTitle = document.getElementById("info-title");
+      const clickablePoints = document.querySelectorAll(".clickable-point");
+      const menuButton = document.getElementById("menu-button");
+
+      document.querySelectorAll(".info-layout").forEach(layout => layout.classList.add("hidden"));
+
       const trunkRight = document.querySelector("#info-layout-trunk .trunk-right");
-      trunkRight.style.opacity = "0";
+      if (trunkRight) trunkRight.classList.remove("visible");
 
-      setTimeout(() => {
-        trunkRight.style.opacity = "1";
-      }, trunkAnimation.getClip().duration * 150);
+      infoBox.classList.remove("info-left", "info-right", "info-bottom", "info-top");
 
+      document.getElementById("page-footer").style.display = isFocused ? "none" : "block";
+
+      if (position) {
+        infoBox.classList.add(`info-${position}`);
       }
 
+      if (isFocused) {
+        body.classList.replace("scene-default", "scene-focused");
+        header.classList.replace("scene-default", "scene-focused");
+        footer.classList.replace("scene-default", "scene-focused");
+
+        backgroundText.style.display = "none";
+        clickablePoints.forEach(p => (p.style.display = "none"));
+        infoBox.classList.remove("hidden");
+
+        document.getElementById("site-logo").src = "/uploads/img/GroupLogoWhite.png";
+        menuButton.classList.replace("default", "focused");
+
+        if (clickedPart === "hood") {
+          infoTitle.style.display = "none";
+        } else {
+          infoTitle.style.display = "block";
+          infoTitle.textContent = text;
+        }
+
+        if (clickedPart === "door") {
+          document.getElementById("info-layout-door").classList.remove("hidden");
+          document.getElementById("info-main-text").textContent = kumoTexts.door;
+          document.getElementById("info-title-left").textContent = text;
+          infoTitle.style.display = "none";
+        } else if (clickedPart === "trunk") {
+          document.getElementById("info-layout-trunk").classList.remove("hidden");
+          document.getElementById("info-text-trunk").textContent = kumoTexts.trunk;
+          document.getElementById("trunk-title").textContent = text;
+          infoTitle.style.display = "none";
+        } else if (clickedPart === "hood") {
+          document.getElementById("info-layout-hood").classList.remove("hidden");
+        }
+      } else {
+        body.classList.replace("scene-focused", "scene-default");
+        header.classList.replace("scene-focused", "scene-default");
+        footer.classList.replace("scene-focused", "scene-default");
+
+        backgroundText.style.display = "block";
+        backgroundText.textContent = "KUMO";
+        clickablePoints.forEach(p => (p.style.display = "block"));
+        infoBox.classList.add("hidden");
+
+        document.getElementById("site-logo").src = "/uploads/img/GroupLogoBlack.png";
+        menuButton.classList.replace("focused", "default");
+      }
+    }
+
+    function resetView() {
+      if (!model) return;
+
+      const startRotation = model.rotation.y;
+      const target = defaultRotation;
+      const duration = 500;
+      const startTime = performance.now();
+
+      function animateRotation(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        model.rotation.y = startRotation + (target - startRotation) * progress;
+
+        if (progress < 1) {
+          requestAnimationFrame(animateRotation);
+        } else {
+          isFocused = false;
+          updateUI();
+          document.getElementById("background-text").textContent = "KUMO";
+          document.getElementById("back-button").classList.add("hidden");
+        }
       }
 
+      if (trunkAnimation && isTrunkOpen) {
+        const trunkRight = document.querySelector("#info-layout-trunk .trunk-right");
+        if (trunkRight) trunkRight.classList.remove("visible");
 
-        requestAnimationFrame(animateRotation);
+        trunkAnimation.stop();
+        trunkAnimation.timeScale = 1;
+        trunkAnimation.reset();
+        isTrunkOpen = false;
       }
 
+      requestAnimationFrame(animateRotation);
+    }
 
+    function toggleMenuButtons(show) {
+      const overlay = document.getElementById("menu-overlay");
+      const menuBtn = document.getElementById("menu-button");
+      const closeBtn = document.getElementById("close-menu");
 
+      overlay.classList.toggle("hidden", !show);
+      menuBtn.classList.toggle("hidden", show);
+      closeBtn.classList.toggle("hidden", !show);
+    }
 
-          function resetView() {
-            if (!model) return;
+    // === Jednotný přechod pro menu i body ===
+    function transitionToPart(rotation, title, position, part) {
+      document.getElementById("info-box").style.visibility = "hidden";
+      document.querySelectorAll(".info-layout").forEach(layout => layout.classList.add("hidden"));
 
-            const startRotation = model.rotation.y;
-            const target = Math.PI / 0.55;
-            const duration = 500;
-            const startTime = performance.now();
+      const trunkRight = document.querySelector("#info-layout-trunk .trunk-right");
+      if (trunkRight) trunkRight.classList.remove("visible");
 
-            function animateRotation(currentTime) {
-              const elapsed = currentTime - startTime;
-              const progress = Math.min(elapsed / duration, 1);
-              model.rotation.y = startRotation + (target - startRotation) * progress;
+      if (trunkAnimation && isTrunkOpen) {
+        trunkAnimation.stop();
+        trunkAnimation.timeScale = 1;
+        trunkAnimation.reset();
+        isTrunkOpen = false;
+      }
 
-              if (progress < 1) {
-                requestAnimationFrame(animateRotation);
-              } else {
-                isFocused = false;
-                updateUI();
-                document.getElementById("background-text").textContent = "KUMO";
-                document.getElementById("back-button").classList.add("hidden");
-              }
-            }
+      toggleMenuButtons(false);
+      moveToPart(rotation, title, position, part);
+    }
 
-            if (trunkAnimation && isTrunkOpen) {
+    // === Inicializace celé aplikace ===
+    window.onload = () => {
+      init();
+      startPulsingPoints();
 
-              const trunkRight = document.querySelector("#info-layout-trunk .trunk-right");
-              trunkRight.style.opacity = "0";
+      document.getElementById("door-point").addEventListener("click", e => {
+        transitionToPart(ROTATIONS.door, e.currentTarget.dataset.titleText, "bottom", "door");
+      });
 
-              trunkAnimation.stop();              // Zastaví přehrávání
-              trunkAnimation.timeScale = 1;       // Resetuje směr
-              trunkAnimation.reset();             // Vrátí na začátek
-              isTrunkOpen = false;                // Uvolní pro další kliknutí
-            }
+      document.getElementById("trunk-point").addEventListener("click", e => {
+        transitionToPart(ROTATIONS.trunk, e.currentTarget.dataset.titleText, "left", "trunk");
+      });
 
+      document.getElementById("hood-point").addEventListener("click", e => {
+        transitionToPart(ROTATIONS.hood, e.currentTarget.dataset.titleText, "left", "hood");
+      });
 
+      document.querySelectorAll(".menu-link").forEach(link => {
+        link.addEventListener("click", () => {
+          let rot = 0, title = link.dataset.title, position = "", part = "";
 
-            requestAnimationFrame(animateRotation);
+          switch (link.dataset.part) {
+            case "about":
+              rot = ROTATIONS.door;
+              title = "ABOUT US";
+              position = "bottom";
+              part = "door";
+              break;
+            case "services":
+              rot = ROTATIONS.trunk;
+              title = "SERVICES";
+              position = "left";
+              part = "trunk";
+              break;
+            case "contact":
+              rot = ROTATIONS.hood;
+              title = "CONTACT";
+              position = "left";
+              part = "hood";
+              break;
+            case "investors":
+              rot = ROTATIONS.default;
+              title = "PRO INVESTORY";
+              position = "right";
+              part = "investors";
+              break;
           }
-          function updateUI(text = "", position = "", clickedPart = "") {
-            const body = document.body;
-            const header = document.querySelector("header");
-            const footer = document.querySelector("footer");
-            const backgroundText = document.getElementById("background-text");
-            const infoBox = document.getElementById("info-box");
-            const infoTitle = document.getElementById("info-title");
-            const clickablePoints = document.querySelectorAll(".clickable-point");
-            const menuButton = document.getElementById("menu-button");
 
-            // Skryj všechny layouty
-            document.querySelectorAll(".info-layout").forEach(layout => layout.classList.add("hidden"));
+          transitionToPart(rot, title, position, part);
+        });
+      });
 
-            infoBox.classList.remove("info-left", "info-right", "info-bottom", "info-top");
+      document.getElementById("menu-button").addEventListener("click", () => toggleMenuButtons(true));
+      document.getElementById("close-menu").addEventListener("click", () => toggleMenuButtons(false));
+      document.getElementById("back-button").addEventListener("click", resetView);
+    };
 
-            document.getElementById("page-footer").style.display = isFocused ? "none" : "block";
+    function createPulseEffect(pointElement) {
+      const circle = document.createElement("div");
+      circle.classList.add("pulse-circle");
+      pointElement.appendChild(circle);
+      setTimeout(() => pointElement.removeChild(circle), 1500);
+    }
 
-            if (position) {
-              infoBox.classList.add(`info-${position}`);
-            }
+    function startPulsingPoints() {
+      const points = document.querySelectorAll(".clickable-point");
+      setInterval(() => {
+        const randomPoint = points[Math.floor(Math.random() * points.length)];
+        createPulseEffect(randomPoint);
+      }, 2000);
+    }
+  </script>
 
-                if (isFocused) {
-            // Barvy
-            body.classList.replace("scene-default", "scene-focused");
-            header.classList.replace("scene-default", "scene-focused");
-            footer.classList.replace("scene-default", "scene-focused");
-
-            backgroundText.style.display = "none"; // 🟡 SKRÝT název stránky
-            clickablePoints.forEach(p => p.style.display = "none");
-            infoBox.classList.remove("hidden");
-
-            document.getElementById("site-logo").src = "/uploads/img/GroupLogoWhite.png";
-
-            menuButton.classList.replace("default", "focused");
-
-            // ✨ Dynamické rozvržení
-            if (clickedPart === "hood") {
-              infoTitle.style.display = "none";
-            } else {
-              infoTitle.style.display = "block";
-              infoTitle.textContent = text;
-            }
-
-            if (clickedPart === "door") {
-               document.getElementById("info-layout-door").classList.remove("hidden");
-               document.getElementById("info-main-text").textContent = kumoTexts.door;
-               document.getElementById("info-title-left").textContent = text;
-               infoTitle.style.display = "none";
-            } else if (clickedPart === "trunk") {
-                document.getElementById("info-layout-trunk").classList.remove("hidden");
-                document.getElementById("info-text-trunk").textContent = kumoTexts.trunk;
-                document.getElementById("trunk-title").textContent = text;
-                infoTitle.style.display = "none";
-            } else if (clickedPart === "hood") {
-              document.getElementById("info-layout-hood").classList.remove("hidden");
-            }
-
-          } else {
-            body.classList.replace("scene-focused", "scene-default");
-            header.classList.replace("scene-focused", "scene-default");
-            footer.classList.replace("scene-focused", "scene-default");
-
-            backgroundText.style.display = "block"; // 🟢 ZPĚT zobrazit v default módu
-            backgroundText.textContent = "KUMO";
-            clickablePoints.forEach(p => p.style.display = "block");
-            infoBox.classList.add("hidden");
-
-            document.getElementById("site-logo").src = "/uploads/img/GroupLogoBlack.png";
-
-            menuButton.classList.replace("focused", "default");
-          }
-      }
-
-          // ⏳ INIT
-          window.onload = init;
-
-          // 📌 Interakce klikacích bodů
-          document.getElementById("door-point").addEventListener("click", e => {
-            moveToPart(ROTATIONS.door, e.target.dataset.titleText, "bottom", "door");
-          });
-
-          document.getElementById("trunk-point").addEventListener("click", e => {
-            moveToPart(ROTATIONS.trunk, e.target.dataset.titleText, "left", "trunk");
-          });
-
-          document.getElementById("hood-point").addEventListener("click", e => {
-            moveToPart(ROTATIONS.hood, e.target.dataset.titleText, "left", "hood");
-          });
-
-
-          document.getElementById("back-button").addEventListener("click", resetView);
-
-          // 📂 MENU logika
-          const menuBtn = document.getElementById("menu-button");
-          const closeBtn = document.getElementById("close-menu");
-          const overlay = document.getElementById("menu-overlay");
-
-          function toggleMenuButtons(show) {
-            overlay.classList.toggle("hidden", !show);
-            menuBtn.classList.toggle("hidden", show);
-            closeBtn.classList.toggle("hidden", !show);
-          }
-
-          menuBtn.onclick = () => toggleMenuButtons(true);
-          closeBtn.onclick = () => toggleMenuButtons(false);
-
-          // 🧭 Navigace z menu
-          document.querySelectorAll(".menu-link").forEach(link => {
-            link.addEventListener("click", () => {
-              let rot = 0, text = "", title = link.dataset.title, position = "", part = "";
-
-              switch (link.dataset.part) {
-                case "about":
-                  rot = ROTATIONS.hood;
-                  text = kumoTexts.hood;
-                  title = "ABOUT US";
-                  position = "left";
-                  part = "hood";
-                  break;
-                case "services":
-                  rot = ROTATIONS.door;
-                  text = kumoTexts.door;
-                  title = "SERVICES";
-                  position = "bottom";
-                  part = "door";
-                  break;
-                case "contact":
-                  rot = ROTATIONS.trunk;
-                  text = kumoTexts.trunk;
-                  title = "CONTACT";
-                  position = "left";
-                  part = "trunk";
-                  break;
-                case "investors":
-                  rot = defaultRotation;
-                  text = kumoTexts.investors;
-                  title = "PRO INVESTORY";
-                  position = "right"; // nastav podle potřeby
-                  part = "investors"; // případně přidej nový layout
-                  break;
-              }
-
-              toggleMenuButtons(false);
-              moveToPart(rot, title, position, part);
-            });
-          });
-
-        function createPulseEffect(pointElement) {
-        const circle = document.createElement("div");
-        circle.classList.add("pulse-circle");
-        pointElement.appendChild(circle);
-
-        setTimeout(() => {
-          pointElement.removeChild(circle);
-        }, 1500);
-      }
-
-      // Spustit opakované pulsování každé 3 vteřiny
-      function startPulsingPoints() {
-        const points = document.querySelectorAll(".clickable-point");
-        setInterval(() => {
-          const randomPoint = points[Math.floor(Math.random() * points.length)];
-          createPulseEffect(randomPoint);
-        }, 2000);
-      }
-
-      window.onload = () => {
-        init();
-        startPulsingPoints();
-      };
-
-
-    </script>
 </body>
 </html>
