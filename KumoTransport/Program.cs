@@ -26,6 +26,7 @@ builder.AddPiranha(options =>
   options.UseTinyMCE();
   options.UseMemoryCache();
 
+
   var connectionString = builder.Configuration.GetConnectionString("piranha");
   options.UseEF<SQLiteDb>(db => db.UseSqlite(connectionString));
   options.UseIdentityWithSeed<IdentitySQLiteDb>(db => db.UseSqlite(connectionString));

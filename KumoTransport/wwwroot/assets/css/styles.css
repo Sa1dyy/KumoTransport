@@ -52,7 +52,7 @@ header {
   top: 0;
   width: 100%;
   background-color: white;
-  padding: 15px;
+  padding: 25px;
   z-index: 10;
 }
 
@@ -326,14 +326,13 @@ body.scene-focused #page-footer,
 #info-layout-door {
   display: flex;
   align-items: flex-start;
-  gap: 80px; /* větší mezery mezi bloky */
-  justify-content: flex-start;
-  padding-top: 10px; /* snížený padding */
-  max-width: 1800px; /* více do šířky */
-  margin: -40px auto 0 auto; /* výš a vystředěno */
+  justify-content: space-between; /* změna z flex-start */
   flex-wrap: wrap;
+  gap: 80px;
+  padding-top: 10px;
+  max-width: 1800px;
+  margin: -40px auto 0 auto;
 }
-
 
 .info-title-left {
   font-size: 2.5rem;
@@ -344,19 +343,28 @@ body.scene-focused #page-footer,
 }
 
 .info-main-text {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: white;
-  max-width: 900px; /* víc prostoru pro hlavní text */
+  max-width: 800px;
   line-height: 1.6;
+  flex: 1 1 60%;
 }
 
+.info-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 40px;
+  min-width: 240px;
+  flex: 1 1 25%;
+}
 
 .info-stat {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   color: white;
-  min-width: 220px;
+  text-align: right;
 }
 
 .info-stat-main {
@@ -370,6 +378,7 @@ body.scene-focused #page-footer,
   color: #ccc;
   margin-top: 4px;
 }
+
 
 @media (min-width: 1600px) {
   .trunk-left {
@@ -524,7 +533,7 @@ body.scene-focused #page-footer,
   gap: 10px;
   background: black;
   color: white;
-  padding: 8px 16px;
+  padding: 12px 24px;
   border: none;
   border-radius: 9999px;
   font-weight: 600;
@@ -552,17 +561,9 @@ body.scene-focused #page-footer,
   height: 100vh;
   background-color: #f5a623;
   z-index: 99;
-  padding: 15px;
+  padding: 25px;
   box-sizing: border-box;
 }
-
-
-.menu-content-top {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
 
   /* === MENU HEADER === */
 .menu-header {
@@ -570,6 +571,7 @@ body.scene-focused #page-footer,
   justify-content: space-between;
   align-items: center;
   margin-bottom: 60px;
+  margin-left: 50px;
 }
 
   .header-left,
@@ -587,7 +589,7 @@ body.scene-focused #page-footer,
 
 .language-switch {
   display: flex;
-  gap: 20px;
+  gap: 25px;
 }
 
   .language-switch button {
@@ -595,7 +597,7 @@ body.scene-focused #page-footer,
     color: black;
     font-weight: 600;
     font-size: 0.9rem;
-    padding: 10px 22px;
+    padding: 16px 30px;
     border-radius: 9999px;
     border: none;
     cursor: pointer;
@@ -626,7 +628,7 @@ body.scene-focused #page-footer,
 .menu-button {
   background: white;
   color: black;
-  padding: 8px 16px;
+  padding: 12px 24px;
   border-radius: 9999px;
   border: none;
   font-weight: 600;
@@ -675,7 +677,7 @@ body.scene-focused #page-footer,
   gap: 8px;
   background: #111;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: none;
   border-radius: 9999px;
   font-weight: 600;
@@ -726,7 +728,7 @@ body.scene-focused #page-footer,
   background: #f5a623;
   color: black;
   font-weight: 500;
-  padding: 16px 24px;
+  padding: 20px 38px;
   border: none;
   border-radius: 9999px;
   font-size: 1rem;

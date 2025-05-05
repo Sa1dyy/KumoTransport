@@ -1,7 +1,24 @@
 ﻿@model KumoHomePage
 @{
   Layout = null;
+
+  var lang = "cs";
+  if (Context.Request.Cookies[".AspNetCore.Culture"] != null && Context.Request.Cookies[".AspNetCore.Culture"].Contains("de"))
+  {
+    lang = "de";
+  }
+  else if (Context.Request.Query["lang"] == "de")
+  {
+    lang = "de";
+  }
+  else if (Context.Request.Headers["Accept-Language"].ToString().StartsWith("de"))
+  {
+    lang = "de";
+  }
+
+  string GetText(LocalizedText text) => lang == "de" ? text.De : text.Cs;
 }
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -49,24 +66,24 @@
   <!-- MENU OVERLAY -->
   <div id="menu-overlay" class="menu-overlay hidden">
     <!-- Horní řádek: přepínače, logo, close -->
-<div class="menu-header">
-  <div class="header-left">
-    <div class="language-switch">
-      <button>ČEŠTINA</button>
-      <button>DEUTSCH</button>
+    <div class="menu-header">
+      <div class="header-left">
+        <div class="language-switch">
+          <button onclick="setLanguage('cs')">ČEŠTINA</button>
+          <button onclick="setLanguage('de')">DEUTSCH</button>
+        </div>
+      </div>
+      <div class="header-center">
+        <div class="menu-logo">
+          <img src="/uploads/img/GroupLogoBlack.png" alt="Logo" />
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="menu-close-button" onclick="toggleMenuButtons(false)">
+          CLOSE <span class="icon-x">&times;</span>
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="header-center">
-    <div class="menu-logo">
-      <img src="/uploads/img/GroupLogoBlack.png" alt="Logo" />
-    </div>
-  </div>
-  <div class="header-right">
-    <button class="menu-close-button" onclick="toggleMenuButtons(false)">
-      CLOSE <span class="icon-x">&times;</span>
-    </button>
-  </div>
-</div>
 
 
     <!-- Menu odkazy vlevo -->
@@ -125,18 +142,21 @@
   <!-- INFO BOX -->
   <div id="info-box" class="hidden">
     <h2 id="info-title"></h2>
+
+
     <div id="info-layout-door" class="info-layout hidden">
-      <div class="info-title-left" id="info-title-left">Services</div>
+      <div class="info-title-left" id="info-title-left">@GetText(Model.MenuServices)</div>
       <div class="info-main-text" id="info-main-text"></div>
       <div class="info-stat">
-        <div class="info-stat-main">10+</div>
-        <div class="info-stat-sub">více jak 10 let zkušeností</div>
+        <div class="info-stat-main">@GetText(Model.ExperienceValue)</div>
+        <div class="info-stat-sub">@GetText(Model.ExperienceLabel)</div>
       </div>
       <div class="info-stat">
-        <div class="info-stat-main">700 000+</div>
-        <div class="info-stat-sub">zásilek ročně</div>
+        <div class="info-stat-main">@GetText(Model.ShipmentsValue)</div>
+        <div class="info-stat-sub">@GetText(Model.ShipmentsLabel)</div>
       </div>
     </div>
+
     <div id="info-layout-trunk" class="info-layout hidden">
       <div class="trunk-left">
         <img src="/uploads/img/ups_logo.png" alt="UPS Logo" class="trunk-logo" />
@@ -189,16 +209,31 @@
   </footer>
 
 
-
-  <!-- Serverové texty do JS -->
   <script>
+    const currentLang = "@lang"; // vloží Razor string do JS
+
+    function setLanguage(lang) {
+      localStorage.setItem("kumoLang", lang);
+      location.reload();
+    }
+
     const kumoTexts = {
-      door: @Html.Raw(Json.Serialize(Model.DoorText?.Value ?? "")),
-      trunk: @Html.Raw(Json.Serialize(Model.TrunkText?.Value ?? "")),
-      hood: @Html.Raw(Json.Serialize(Model.HoodText?.Value ?? "")),
-      investors: "Zde bude investorský text"
+      door: @Html.Raw(Json.Serialize(lang == "de" ? Model.DoorText?.De?.Value : Model.DoorText?.Cs?.Value)),
+      trunk: @Html.Raw(Json.Serialize(lang == "de" ? Model.TrunkText?.De?.Value : Model.TrunkText?.Cs?.Value)),
+      hood: @Html.Raw(Json.Serialize(lang == "de" ? Model.HoodText?.De?.Value : Model.HoodText?.Cs?.Value)),
+      investors: "@(lang == "de" ? "Für Investoren" : "Pro investory")"
     };
+
+      function setLanguage(lang) {
+      const culture = lang === "de" ? "de-DE" : "cs-CZ";
+
+      document.cookie = `.AspNetCore.Culture=c=${culture}|uic=${culture}; path=/; max-age=31536000`;
+
+      // Reload stránky, aby Razor znovu načetl správný jazyk
+      location.reload();
+    }
   </script>
+
 
   <script>
     // === Globální proměnné ===
