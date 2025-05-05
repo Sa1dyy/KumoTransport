@@ -34,12 +34,11 @@
       <button id="menu-button" class="menu-button default">
         MENU
         <span class="icon">
-          <div></div>
-          <div></div>
-          <div></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
         </span>
       </button>
-
       <button id="close-menu" class="close-button hidden">
         <span class="text">CLOSE</span>
         <span class="icon-x">&times;</span>
@@ -50,18 +49,25 @@
   <!-- MENU OVERLAY -->
   <div id="menu-overlay" class="menu-overlay hidden">
     <!-- Horní řádek: přepínače, logo, close -->
-    <div class="menu-header">
-      <div class="language-switch">
-        <button>ČEŠTINA</button>
-        <button>DEUTSCH</button>
-      </div>
-      <div class="menu-logo">
-        <img src="/uploads/img/GroupLogoBlack.png" alt="Logo" />
-      </div>
-      <button class="menu-close-button" onclick="toggleMenuButtons(false)">
-        CLOSE <span class="icon-x">&times;</span>
-      </button>
+<div class="menu-header">
+  <div class="header-left">
+    <div class="language-switch">
+      <button>ČEŠTINA</button>
+      <button>DEUTSCH</button>
     </div>
+  </div>
+  <div class="header-center">
+    <div class="menu-logo">
+      <img src="/uploads/img/GroupLogoBlack.png" alt="Logo" />
+    </div>
+  </div>
+  <div class="header-right">
+    <button class="menu-close-button" onclick="toggleMenuButtons(false)">
+      CLOSE <span class="icon-x">&times;</span>
+    </button>
+  </div>
+</div>
+
 
     <!-- Menu odkazy vlevo -->
     <div class="menu-links">
@@ -98,7 +104,6 @@
       </div>
     </footer>
   </div>
-
 
   <h1 class="homepage-title" id="background-text">KUMO</h1>
   <div id="car-container"></div>
@@ -165,6 +170,15 @@
       </div>
     </div>
   </div>
+
+  <div id="investor-button-wrapper" class="investor-button-wrapper">
+    <button id="investor-button" class="investor-button">
+      <img src="/uploads/img/ups_logo.png" alt="icon">
+      PRO INVESTORY
+    </button>
+  </div>
+
+
 
   <!-- PAGE FOOTER -->
   <footer class="scene-default" id="page-footer">
@@ -354,6 +368,11 @@
       const clickablePoints = document.querySelectorAll(".clickable-point");
       const menuButton = document.getElementById("menu-button");
 
+      const investorButtonWrapper = document.getElementById("investor-button-wrapper");
+      if (investorButtonWrapper) {
+        investorButtonWrapper.style.display = isFocused ? "none" : "block";
+      }
+
       document.querySelectorAll(".info-layout").forEach(layout => layout.classList.add("hidden"));
 
       const trunkRight = document.querySelector("#info-layout-trunk .trunk-right");
@@ -367,7 +386,7 @@
         infoBox.classList.add(`info-${position}`);
       }
 
-      if (isFocused) {
+       if (isFocused) {
         body.classList.replace("scene-default", "scene-focused");
         header.classList.replace("scene-default", "scene-focused");
         footer.classList.replace("scene-default", "scene-focused");
@@ -377,7 +396,9 @@
         infoBox.classList.remove("hidden");
 
         document.getElementById("site-logo").src = "/uploads/img/GroupLogoWhite.png";
-        menuButton.classList.replace("default", "focused");
+
+        menuButton.classList.remove("default");
+        menuButton.classList.add("focused");
 
         if (clickedPart === "hood") {
           infoTitle.style.display = "none";
@@ -399,6 +420,7 @@
         } else if (clickedPart === "hood") {
           document.getElementById("info-layout-hood").classList.remove("hidden");
         }
+
       } else {
         body.classList.replace("scene-focused", "scene-default");
         header.classList.replace("scene-focused", "scene-default");
@@ -410,7 +432,9 @@
         infoBox.classList.add("hidden");
 
         document.getElementById("site-logo").src = "/uploads/img/GroupLogoBlack.png";
-        menuButton.classList.replace("focused", "default");
+
+        menuButton.classList.remove("focused");
+        menuButton.classList.add("default");
       }
     }
 
