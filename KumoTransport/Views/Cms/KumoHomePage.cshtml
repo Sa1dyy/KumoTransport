@@ -126,15 +126,15 @@
   <div id="car-container"></div>
 
   <!-- CLICKABLE POINTS -->
-  <div class="clickable-point" id="door-point" data-title-text="About us" style="top: 45%; left: 50%;">
+  <div class="clickable-point door-point" id="door-point" data-title-text="About us">
     <div class="icon">📦</div>
     <div class="label">About us</div>
   </div>
-  <div class="clickable-point" id="trunk-point" data-title-text="Services" data-position="left" style="top: 50%; left: 60%;">
+  <div class="clickable-point trunk-point" id="trunk-point" data-title-text="Services" data-position="left">
     <div class="icon">🔧</div>
     <div class="label">Services</div>
   </div>
-  <div class="clickable-point" id="hood-point" data-title-text="Contacts" data-position="bottom" style="top: 65%; left: 30%;">
+  <div class="clickable-point hood-point" id="hood-point" data-title-text="Contacts" data-position="bottom">
     <div class="icon">📞</div>
     <div class="label">Contacts</div>
   </div>
@@ -250,17 +250,18 @@
     };
 
     // === Inicializace scény ===
-        function init() {
+    function init() {
       scene = new THREE.Scene();
 
       camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.set(0, 0.8, 5);
+
+      // 📏 Detekce zařízení podle šířky viewportu
+      const isMobile = window.innerWidth < 768;
+      camera.position.set(0, 0.8, isMobile ? 6 : 5); // větší distance pro mobily
 
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.shadowMap.enabled = true;
-
-      // ⚠️ Jemnější tone mapping
       renderer.toneMapping = THREE.ReinhardToneMapping;
       renderer.toneMappingExposure = 0.9;
 
@@ -270,13 +271,11 @@
       const light = new THREE.DirectionalLight(0xffffff, 2);
       light.position.set(5, 5, 5);
       light.castShadow = true;
-
       light.shadow.mapSize.set(1024, 1024);
       light.shadow.bias = -0.0001;
       scene.add(light);
 
-      const ambient = new THREE.AmbientLight(0xffffff, 1.5);
-      scene.add(ambient);
+      scene.add(new THREE.AmbientLight(0xffffff, 5));
 
       const backLight = new THREE.DirectionalLight(0xffffff, 0.8);
       backLight.position.set(-5, 3, -3);
@@ -285,7 +284,7 @@
       // === STÍNOVÁ ROVINA ===
       const plane = new THREE.Mesh(
         new THREE.PlaneGeometry(10, 10),
-        new THREE.ShadowMaterial({ opacity: 0.3 }) // jemnější stín
+        new THREE.ShadowMaterial({ opacity: 0.3 })
       );
       plane.rotation.x = -Math.PI / 2;
       plane.position.y = -0.1;
@@ -298,16 +297,17 @@
         model = gltf.scene;
         model.position.y = 0;
         model.rotation.y = Math.PI / 0.55;
-        model.scale.set(0.7, 0.7, 0.7);
 
-        // ⚠️ UPRAVA MATERIÁLŮ
+        // 📐 Responzivní velikost modelu
+        model.scale.set(isMobile ? 0.5 : 0.7, isMobile ? 0.5 : 0.7, isMobile ? 0.5 : 0.7);
+
+        // ⚙️ Úprava materiálů
         model.traverse((node) => {
           if (node.isMesh) {
             node.castShadow = true;
-
             if (node.material && node.material.metalness !== undefined) {
-              node.material.roughness = 0.4;     // zmatnění
-              node.material.metalness = 0.4;     // méně kovový
+              node.material.roughness = 0.2;
+              node.material.metalness = 0.2;
               node.material.needsUpdate = true;
             }
           }
@@ -315,7 +315,7 @@
 
         scene.add(model);
 
-        // ANIMACE KUFRU
+        // === ANIMACE KUFRU ===
         if (gltf.animations.length > 0) {
           mixer = new THREE.AnimationMixer(model);
           const fullClip = gltf.animations[0];
@@ -331,7 +331,10 @@
 
         animate();
       });
+
+      window.addEventListener("resize", onWindowResize);
     }
+
 
 
     function animate() {
@@ -609,6 +612,22 @@
         createPulseEffect(randomPoint);
       }, 2000);
     }
+
+    function onWindowResize() {
+      const isMobile = window.innerWidth < 768;
+
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      if (model) {
+        model.scale.set(isMobile ? 0.5 : 0.7, isMobile ? 0.5 : 0.7, isMobile ? 0.5 : 0.7);
+      }
+
+      camera.position.set(0, 0.8, isMobile ? 6 : 5);
+    }
+
+
   </script>
 
 </body>

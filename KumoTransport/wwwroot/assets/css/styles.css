@@ -115,6 +115,21 @@ body.scene-focused #page-footer,
 }
 
 
+.door-point {
+  top: 48%;
+  left: 50%;
+}
+
+.trunk-point {
+  top: 38%;
+  left: 61%;
+}
+
+.hood-point {
+  top: 60%;
+  left: 30%;
+}
+
 
 
 .homepage-title {
@@ -796,5 +811,293 @@ body.scene-focused #page-footer,
   margin: 0 40px;
   align-self: center;
 }
+
+/* ---------------------- */
+/* === RESPONSIVE === */
+/* ---------------------- */
+
+@media (max-width: 1024px) {
+  .homepage-title {
+    font-size: 28vw;
+  }
+
+  .menu-link {
+    font-size: 3rem;
+  }
+
+  .info-main-text {
+    font-size: 1.1rem;
+  }
+
+  .contact-box {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+  }
+
+  .contact img {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  header, .menu-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .header-left, .header-right, .header-center {
+    width: 100% !important;
+    padding: 0 !important;
+    justify-content: space-between;
+  }
+
+  .logo img, .menu-logo img {
+    height: 40px;
+  }
+
+  .menu-links {
+    padding-left: 20px;
+  }
+
+  .menu-link {
+    font-size: 2rem;
+  }
+
+  .info-title-left {
+    font-size: 1.5rem;
+  }
+
+  .info-main-text, .trunk-main-text, .contact-role {
+    font-size: 1rem;
+  }
+
+  .info-layout, #info-layout-hood, #info-layout-door {
+    flex-direction: column !important;
+    gap: 20px !important;
+    padding: 20px;
+    text-align: left;
+  }
+
+  .info-contacts {
+    gap: 20px;
+  }
+
+  .contact img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .footer-divider {
+    display: none;
+  }
+
+  .investor-button-wrapper {
+    left: 20px;
+    right: 20px;
+    width: auto;
+  }
+
+  .investor-button {
+    padding: 14px 24px;
+    font-size: 0.9rem;
+  }
+
+  .homepage-title {
+    font-size: 20vw;
+  }
+
+  .back-button {
+    font-size: 0.9rem;
+  }
+
+  .clickable-point {
+    width: 28px;
+    height: 28px;
+  }
+
+    .clickable-point .label {
+      font-size: 0.65rem;
+      padding: 4px 8px;
+    }
+
+    .clickable-point .icon {
+      font-size: 12px;
+    }
+}
+
+@media (max-width: 767px) {
+
+  body {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  header, footer {
+    padding: 12px;
+  }
+
+  .header-right {
+    position: absolute;
+    right: calc(18% - 5vw);
+    top: 20px;
+    width: auto;
+    justify-content: flex-end;
+  }
+
+
+  .logo img,
+  .menu-logo img {
+    height: 80px;
+  }
+
+  .homepage-title {
+    position: fixed;
+    top: calc(20% - 5vw);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 42vw;
+    color: rgba(26, 30, 32, 0.07); /* průhlednější pozadí */
+    white-space: nowrap;
+    pointer-events: none;
+    position: fixed;
+    letter-spacing: -1vw;
+    line-height: 0.9;
+    white-space: nowrap;
+    color: #1a1e20;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+
+  .clickable-point {
+    width: 40px;
+    height: 40px;
+  }
+
+    .clickable-point .icon {
+      font-size: 12px;
+    }
+
+    .clickable-point .label {
+      font-size: 0.7rem;
+      padding: 4px 10px;
+    }
+
+  .menu-button,
+  .menu-close-button,
+  .back-button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+
+  .investor-button-wrapper {
+    position: fixed;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+
+
+  .investor-button {
+    padding: 15px 25px;
+    font-size: 0.85rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+
+  .footer-center {
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.9rem;
+  }
+
+  footer {
+    padding-bottom: 30px;
+  }
+
+  #footer-logo {
+    height: 38px;
+  }
+
+  #info-box {
+    padding: 10px 20px;
+  }
+
+  #info-title {
+    font-size: 1.3rem;
+  }
+
+  .info-main-text {
+    font-size: 1rem;
+  }
+
+  .trunk-title,
+  .info-title-left {
+    font-size: 1.6rem;
+  }
+
+  .trunk-main-text,
+  .contact-name {
+    font-size: 1.1rem;
+  }
+
+  .info-contact-details .contact-box {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+  }
+
+  .contact img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .menu-links {
+    padding-left: 20px;
+    gap: 30px;
+  }
+
+  .menu-link {
+    font-size: 2rem;
+  }
+
+  .footer-content {
+    padding: 0 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .footer-divider {
+    display: none;
+  }
+
+  .door-point {
+    top: 52%;
+    left: 50%;
+  }
+
+  .trunk-point {
+    top: 45%;
+    left: 75%;
+  }
+
+  .hood-point {
+    top: 58%;
+    left: 15%;
+  }
+}
+
+
 
 
