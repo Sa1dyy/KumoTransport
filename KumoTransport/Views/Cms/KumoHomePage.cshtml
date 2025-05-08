@@ -39,7 +39,7 @@
         <span class="circle">
           <span class="arrow-left"></span>
         </span>
-        <span class="text">Back to depo</span>
+        <span class="text">@GetText(Model.BackButtonText)</span>
       </button>
     </div>
     <div class="header-center">
@@ -57,7 +57,7 @@
         </span>
       </button>
       <button id="close-menu" class="close-button hidden">
-        <span class="text">CLOSE</span>
+        <span class="text">@GetText(Model.MenuCloseText)</span>
         <span class="icon-x">&times;</span>
       </button>
     </div>
@@ -79,44 +79,40 @@
         </div>
       </div>
       <div class="header-right">
-        <button class="menu-close-button" onclick="toggleMenuButtons(false)">
-          CLOSE <span class="icon-x">&times;</span>
-        </button>
+<button class="menu-close-button" onclick="toggleMenuButtons(false)">
+  <span class="text">CLOSE</span>
+  <span class="icon-x">&times;</span>
+</button>
+
       </div>
     </div>
 
 
     <!-- Menu odkazy vlevo -->
     <div class="menu-links">
-      <div class="menu-link" data-part="about" data-title="ABOUT US">ABOUT US</div>
-      <div class="menu-link" data-part="services" data-title="SERVICES">SERVICES</div>
-      <div class="menu-link" data-part="contact" data-title="CONTACT">CONTACT</div>
-      <div class="menu-link" data-part="investors" data-title="PRO INVESTORY">PRO INVESTORY</div>
+      <div class="menu-link" data-part="about" data-title="@GetText(Model.MenuAbout)">@GetText(Model.MenuAbout)</div>
+      <div class="menu-link" data-part="services" data-title="@GetText(Model.MenuServices)">@GetText(Model.MenuServices)</div>
+      <div class="menu-link" data-part="contact" data-title="@GetText(Model.MenuContact)">@GetText(Model.MenuContact)</div>
+      <div class="menu-link" data-part="investors" data-title="@GetText(Model.MenuInvestors)">@GetText(Model.MenuInvestors)</div>
     </div>
 
     <!-- Spodní patička -->
-    <footer class="menu-footer">
+        <footer class="menu-footer">
       <div class="footer-line"></div>
       <div class="footer-content">
         <div class="footer-block">
-          <div class="footer-title">KUMO TRANSPORT</div>
+          <div class="footer-title">@GetText(Model.FooterCompanyName)</div>
         </div>
-
         <div class="footer-block">
-          <div>Kaprova 42/14</div>
-          <div>110 00 Praha</div>
+          <div>@GetText(Model.FooterAddress)</div>
         </div>
-
         <div class="footer-block">
-          <div>IČO: 19944705</div>
-          <div>DIČ: CZ19944705</div>
+          <div>@GetText(Model.FooterIdentification)</div>
         </div>
-
         <div class="footer-divider"></div>
-
         <div class="footer-block">
-          <div>info@kumotransport.cz</div>
-          <div>+420 723 220 484</div>
+          <div>@GetText(Model.FooterEmail)</div>
+          <div>@GetText(Model.FooterPhone)</div>
         </div>
       </div>
     </footer>
@@ -126,24 +122,23 @@
   <div id="car-container"></div>
 
   <!-- CLICKABLE POINTS -->
-  <div class="clickable-point door-point" id="door-point" data-title-text="About us">
+  <div class="clickable-point door-point" id="door-point" data-title-text="@GetText(Model.MenuAbout)">
     <div class="icon">📦</div>
-    <div class="label">About us</div>
+    <div class="label">@GetText(Model.MenuAbout)</div>
   </div>
-  <div class="clickable-point trunk-point" id="trunk-point" data-title-text="Services" data-position="left">
+  <div class="clickable-point trunk-point" id="trunk-point" data-title-text="@GetText(Model.MenuServices)" data-position="left">
     <div class="icon">🔧</div>
-    <div class="label">Services</div>
+    <div class="label">@GetText(Model.MenuServices)</div>
   </div>
-  <div class="clickable-point hood-point" id="hood-point" data-title-text="Contacts" data-position="bottom">
+  <div class="clickable-point hood-point" id="hood-point" data-title-text="@GetText(Model.MenuContact)" data-position="bottom">
     <div class="icon">📞</div>
-    <div class="label">Contacts</div>
+    <div class="label">@GetText(Model.MenuContact)</div>
+  <div class="label">Contacts</div>
   </div>
 
   <!-- INFO BOX -->
   <div id="info-box" class="hidden">
     <h2 id="info-title"></h2>
-
-
     <div id="info-layout-door" class="info-layout hidden">
       <div class="info-title-left" id="info-title-left">@GetText(Model.MenuServices)</div>
       <div class="info-main-text" id="info-main-text"></div>
@@ -156,11 +151,10 @@
         <div class="info-stat-sub">@GetText(Model.ShipmentsLabel)</div>
       </div>
     </div>
-
     <div id="info-layout-trunk" class="info-layout hidden">
       <div class="trunk-left">
         <img src="/uploads/img/ups_logo.png" alt="UPS Logo" class="trunk-logo" />
-        <div class="trunk-subtitle">ON BEHALF OF UPS</div>
+        <div class="trunk-subtitle">@GetText(Model.FooterText)</div>
       </div>
       <div class="trunk-right">
         <div class="trunk-title" id="trunk-title"></div>
@@ -169,32 +163,33 @@
     </div>
     <div id="info-layout-hood" class="info-layout hidden">
       <div class="info-contact-details">
-        <div class="contact-box">info@kumotransport.cz</div>
-        <div class="contact-box">+420 723 220 484</div>
+        <div class="contact-box">@GetText(Model.ContactEmail)</div>
+        <div class="contact-box">@GetText(Model.ContactPhone)</div>
       </div>
       <div class="info-contacts">
         <div class="contact">
           <img src="/uploads/img/kubin.jpg" alt="Kontakt 1">
           <div class="contact-info">
-            <div class="contact-name">Jakub Kubín</div>
-            <div class="contact-role">Chief operating officer</div>
+            <div class="contact-name">@GetText(Model.Contact1Name)</div>
+            <div class="contact-role">@GetText(Model.Contact1Role)</div>
           </div>
         </div>
         <div class="contact">
           <img src="/uploads/img/motl.jpg" alt="Kontakt 2">
           <div class="contact-info">
-            <div class="contact-name">Michal Motl</div>
-            <div class="contact-role">Chief financial officer</div>
+            <div class="contact-name">@GetText(Model.Contact2Name)</div>
+            <div class="contact-role">@GetText(Model.Contact2Role)</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
+
   <div id="investor-button-wrapper" class="investor-button-wrapper">
     <button id="investor-button" class="investor-button">
       <img src="/uploads/img/ups_logo.png" alt="icon">
-      PRO INVESTORY
+      @GetText(Model.InvestorsButtonText)
     </button>
   </div>
 
@@ -203,7 +198,7 @@
   <!-- PAGE FOOTER -->
   <footer class="scene-default" id="page-footer">
     <div class="footer-center">
-      <span class="footer-text">On behalf of</span>
+      <span class="footer-text">@GetText(Model.FooterText)</span>
       <img id="footer-logo" src="/uploads/img/ups_logo.png" alt="UPS Logo">
     </div>
   </footer>
