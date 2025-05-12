@@ -75,7 +75,7 @@ header {
 }
 
 .logo img {
-  height: 60px;
+  height: 70px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -288,6 +288,15 @@ body.scene-focused #page-footer,
   .back-button .text {
     color: white;
     transition: transform 0.3s ease;
+  }
+
+  .back-button::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    bottom: -10px;
+    left: -12px;
+    right: -12px;
   }
 
   /* Hover efekt */
@@ -626,7 +635,7 @@ body.scene-focused #page-footer,
 
 .logo img,
 .menu-logo img {
-  height: 60px;
+  height: 70px;
   width: auto;
   object-fit: contain;
 }
@@ -840,108 +849,33 @@ body.scene-focused #page-footer,
   }
 }
 
-@media (max-width: 768px) {
-  header, .menu-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .header-left, .header-right, .header-center {
-    width: 100% !important;
-    padding: 0 !important;
-    justify-content: space-between;
-  }
-
-  .logo img, .menu-logo img {
-    height: 40px;
-  }
-
-  .menu-links {
-    padding-left: 20px;
-  }
-
-  .menu-link {
-    font-size: 2rem;
-  }
-
-  .info-title-left {
-    font-size: 1.5rem;
-  }
-
-  .info-main-text, .trunk-main-text, .contact-role {
-    font-size: 1rem;
-  }
-
-  .info-layout, #info-layout-hood, #info-layout-door {
-    flex-direction: column !important;
-    gap: 20px !important;
-    padding: 20px;
-    text-align: left;
-  }
-
-  .info-contacts {
-    gap: 20px;
-  }
-
-  .contact img {
-    width: 100px;
-    height: 100px;
-  }
-
-  .footer-content {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .footer-divider {
-    display: none;
-  }
-
-  .investor-button-wrapper {
-    left: 20px;
-    right: 20px;
-    width: auto;
-  }
-
-  .investor-button {
-    padding: 14px 24px;
-    font-size: 0.9rem;
-  }
-
-  .homepage-title {
-    font-size: 20vw;
-  }
-
-  .back-button {
-    font-size: 0.9rem;
-  }
-
-  .clickable-point {
-    width: 28px;
-    height: 28px;
-  }
-
-    .clickable-point .label {
-      font-size: 0.65rem;
-      padding: 4px 8px;
-    }
-
-    .clickable-point .icon {
-      font-size: 12px;
-    }
-}
-
 @media (max-width: 767px) {
-
   body {
     padding-left: 8px;
     padding-right: 8px;
   }
 
-  header, footer {
+  header,
+  .menu-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
     padding: 12px;
   }
+
+    header.scene-focused {
+      padding-top: 20px;
+    }
+
+    .header-left,
+    .header-right,
+    .header-center,
+    .menu-header .header-left,
+    .menu-header .header-right {
+      width: 100%;
+      padding: 0 !important;
+      justify-content: space-between;
+    }
 
   .header-right {
     position: absolute;
@@ -952,200 +886,40 @@ body.scene-focused #page-footer,
     padding-top: 10px;
   }
 
-  header.scene-focused {
-    padding-top: 20px;
-  }
-
   .logo img,
   .menu-logo img {
     height: 80px;
+    position: absolute;
+    left: 48%;
+    transform: translateX(-50%);
+    z-index: 1;
+    margin-top: 60px;
   }
 
-  .homepage-title {
-    position: fixed;
-    top: calc(20% - 5vw);
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 42vw;
-    color: rgba(26, 30, 32, 0.07); /* průhlednější pozadí */
-    white-space: nowrap;
-    pointer-events: none;
-    position: fixed;
-    letter-spacing: -1vw;
-    line-height: 0.9;
-    white-space: nowrap;
-    color: #1a1e20;
-    z-index: -1;
-    pointer-events: none;
-  }
-
-
-  .clickable-point {
-    width: 40px;
-    height: 40px;
-  }
-
-    .clickable-point .icon {
-      font-size: 12px;
-    }
-
-    .clickable-point .label {
-      font-size: 0.7rem;
-      padding: 4px 10px;
-    }
-
-  .menu-button,
-  .menu-close-button {
-    padding: 8px 16px;
-    font-size: 0.8rem;
-    margin-top: 10px;
-  }
-
-  .back-button {
-    margin-top: 10px;
-  }
-
-  .investor-button-wrapper {
-    position: fixed;
-    bottom: 120px;
+  .menu-logo img {
+    position: absolute;
+    top: 40px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10;
   }
-
-
-  .investor-button {
-    padding: 15px 25px;
-    font-size: 0.85rem;
-    border-radius: 9999px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .menu-footer .footer-content {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    padding: 0 20px;
-  }
-
-  .footer-center {
-    flex-direction: column;
-    gap: 8px;
-    font-size: 0.9rem;
-  }
-
-  footer {
-    padding-bottom: 30px;
-  }
-
-  #footer-logo {
-    height: 38px;
-  }
-
-  #info-box {
-    padding: 10px 20px;
-  }
-
-  #info-title {
-    font-size: 1.3rem;
-  }
-
-  .info-main-text {
-    font-size: 1rem;
-  }
-
-  .trunk-title,
-  .info-title-left {
-    font-size: 1.6rem;
-  }
-
-  .trunk-main-text,
-  .contact-name {
-    font-size: 1.1rem;
-  }
-
-  .info-contact-details .contact-box {
-    font-size: 1.1rem;
-    padding: 10px 20px;
-  }
-
-  .contact img {
-    width: 100px;
-    height: 100px;
-  }
-
-  .menu-links {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    align-items: center;
-    padding: 0 20px;
-    margin-top: 20px;
-  }
-
-  .menu-link {
-    font-size: 2.2rem;
-    font-weight: 800;
-    text-align: center;
-    line-height: 1;
-  }
-
-  .footer-content {
-    padding: 0 20px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-  }
-
-  .footer-divider {
-    display: none;
-  }
-
-  .footer-block {
-    text-align: center;
-  }
-
-  .door-point {
-    top: 52%;
-    left: 50%;
-  }
-
-  .trunk-point {
-    top: 45%;
-    left: 75%;
-  }
-
-  .hood-point {
-    top: 58%;
-    left: 15%;
-  }
-
-  .menu-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-left: 0;
-  }
-
-    .menu-header .header-left,
-    .menu-header .header-right {
-      width: 100%;
-      justify-content: center;
-      padding: 0;
-    }
 
   .menu-logo {
     margin: 10px 0;
   }
 
-  .language-switch {
-    gap: 12px;
-    margin-bottom: 10px;
+  .homepage-title {
+    position: fixed;
+    top: calc(15% - 5vw);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 42vw;
+    color: #1a1e20;
+    letter-spacing: -1vw;
+    line-height: 0.9;
+    z-index: -1;
+    pointer-events: none;
+    white-space: nowrap;
   }
-
 
   .menu-links {
     display: flex;
@@ -1160,9 +934,16 @@ body.scene-focused #page-footer,
     font-size: 2.5rem;
     font-weight: 800;
     text-transform: uppercase;
-    color: #111;
     text-align: center;
     line-height: 1;
+    color: #111;
+  }
+
+  .menu-button,
+  .menu-close-button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    margin-top: 10px;
   }
 
   .menu-close-button {
@@ -1183,31 +964,161 @@ body.scene-focused #page-footer,
     z-index: 999;
   }
 
-    .menu-close-button .text {
+    .menu-close-button .text,
+    #close-menu .text {
       display: none;
     }
 
-    .menu-close-button .icon-x {
+    .menu-close-button .icon-x,
+    #close-menu .icon-x {
       display: inline;
       font-size: 1.4rem;
     }
 
-  #close-menu .text {
+  .language-switch {
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .back-button {
+    font-size: 0.9rem;
+    margin-top: 10px;
+    padding: 8px 12px;
+  }
+
+  .clickable-point {
+    width: 40px;
+    height: 40px;
+  }
+
+    .clickable-point .icon {
+      font-size: 12px;
+    }
+
+    .clickable-point .label {
+      font-size: 0.7rem;
+      padding: 4px 10px;
+    }
+
+  .investor-button-wrapper {
+    position: fixed;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+
+  .investor-button {
+    padding: 15px 25px;
+    font-size: 0.85rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  footer {
+    padding-bottom: 30px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 0 20px;
+  }
+
+  .footer-divider {
     display: none;
   }
 
-  #close-menu .icon-x {
-    display: inline;
-    font-size: 1.4rem;
+  .footer-block {
+    text-align: center;
+  }
+
+  .footer-center {
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.9rem;
+  }
+
+  .menu-footer .footer-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 0 20px;
+  }
+
+  #footer-logo {
+    height: 38px;
+  }
+
+  #info-box {
+    padding: 10px 20px;
+  }
+
+  #info-title {
+    font-size: 1.3rem;
+  }
+
+  .info-main-text,
+  .trunk-main-text,
+  .contact-role {
+    font-size: 1rem;
+    color: white;
+  }
+
+  .trunk-main-text {
+    line-height: 1.5;
+  }
+
+  .trunk-title,
+  .info-title-left {
+    font-size: 1.6rem;
+  }
+
+  .info-title-left {
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .contact-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+  }
+
+  .info-layout,
+  #info-layout-hood,
+  #info-layout-door {
+    flex-direction: column !important;
+    gap: 20px !important;
+    padding: 20px;
+    text-align: left;
+  }
+
+  #info-layout-door {
+    align-items: center;
+    text-align: center;
+    gap: 32px;
+  }
+
+  #info-layout-hood {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 80px 20px 20px 20px; /* přidán padding-top: 80px */
+    text-align: center;
   }
 
   #info-layout-trunk {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 20px;
+    padding: 5px;
     text-align: center;
-    gap: 16px;
+    gap: 10px;
+    height: auto;
   }
 
   .trunk-left {
@@ -1217,11 +1128,11 @@ body.scene-focused #page-footer,
     transform: none;
     width: auto;
     align-items: center;
+    margin-left: 20px;
   }
 
   .trunk-logo {
-    height: 60px;
-    margin-bottom: 5px;
+    height: 50px;
   }
 
   .trunk-subtitle {
@@ -1235,71 +1146,8 @@ body.scene-focused #page-footer,
     transform: none;
     opacity: 1 !important;
     max-width: 100%;
-  }
-
-  .trunk-title {
-    font-size: 1.4rem;
-  }
-
-  .trunk-main-text {
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-
-  #info-layout-door {
-    flex-direction: column;
-    gap: 32px;
-    padding: 20px;
-    align-items: center;
-    text-align: center;
-  }
-
-  .info-title-left {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: white;
-    margin-bottom: 10px;
-  }
-
-  .info-main-text {
-    font-size: 1rem;
-    color: white;
-    line-height: 1.6;
-    max-width: 90%;
-  }
-
-  .info-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-  }
-
-  .info-stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .info-stat-main {
-    font-size: 2rem;
-    color: #f5a623;
-    font-weight: bold;
-  }
-
-  .info-stat-sub {
-    font-size: 0.95rem;
-    color: #ccc;
-    margin-top: 4px;
-  }
-
-  #info-layout-hood {
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    padding: 20px 20px;
-    text-align: center;
+    padding: 0 40px;
+    margin-left: 20px;
   }
 
   .info-contact-details {
@@ -1332,28 +1180,67 @@ body.scene-focused #page-footer,
       height: 100px;
       object-fit: cover;
       border-radius: 50%;
-      box-shadow: 0 0 10px rgba(0,0,0,0.25);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
     }
 
   .contact-info {
     text-align: center;
   }
 
-  .contact-name {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: white;
+  .info-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
   }
 
-  .contact-role {
+  .info-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .info-stat-main {
+    font-size: 2rem;
+    color: #f5a623;
+    font-weight: bold;
+  }
+
+  .info-stat-sub {
     font-size: 0.95rem;
     color: #ccc;
+    margin-top: 4px;
   }
-  
 
+  .door-point {
+    top: 52%;
+    left: 50%;
+  }
 
+  .trunk-point {
+    top: 45%;
+    left: 75%;
+  }
+
+  .hood-point {
+    top: 58%;
+    left: 15%;
+  }
 }
 
 
+@media (min-width: 1400px) {
+  #info-layout-hood {
+    max-width: 1800px;
+    padding: 0 100px;
+  }
 
+  .info-contact-details {
+    margin-left: 20px;
+  }
 
+  .info-contacts {
+    margin-right: 20px;
+  }
+}
