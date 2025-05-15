@@ -1,13 +1,16 @@
 ﻿@model KumoTransport.Models.InvestorPage
-@using Piranha.Models
 @using Piranha.Extend.Fields
 
 @{
   Layout = null;
-}
 
-@functions {
-  private string GetFileExtensionLabel(string url)
+  var lang = "cs";
+  if (Context.Request.Cookies[".AspNetCore.Culture"]?.Contains("de") == true)
+    lang = "de";
+
+  string GetText(LocalizedText text) => lang == "de" ? text.De : text.Cs;
+
+  string GetFileExtensionLabel(string url)
   {
     var ext = System.IO.Path.GetExtension(url)?.TrimStart('.').ToUpperInvariant() ?? "PDF";
     return ext switch
@@ -25,22 +28,21 @@
 }
 
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="@lang">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>@Model.MetaTitle</title>
+  <title>@Model.MetaTitle ?? GetText(Model.PageTitle)</title>
   <link rel="stylesheet" href="/assets/css/styles.css" />
 </head>
 
 <body>
   <div class="investor-page">
+    <!-- Header -->
     <header class="investor-header">
       <button id="back-button" class="back-button" onclick="window.location.href='/'">
-        <span class="circle">
-          <span class="arrow-left"></span>
-        </span>
-        <span class="text" data-mobile="Back">Back to depo</span>
+        <span class="circle"><span class="arrow-left"></span></span>
+        <span class="text" data-mobile="Back">@GetText(Model.BackButtonText)</span>
       </button>
 
       <img src="/uploads/img/GroupLogoBlack.png" class="header-logo" />
@@ -55,18 +57,13 @@
       </button>
     </header>
 
-
+    <!-- Main content -->
     <main>
-      <h1 class="investor-title">INVEST</h1>
+      <h1 class="investor-title">@GetText(Model.PageTitle)</h1>
 
       <section class="program-section">
-        <h2>DLUHOPISOVÝ PROGRAM 2025</h2>
-        <p>
-          Dne 5. 2. 2025 vydala ČNB rozhodnutí pod č.j. 2025/014139/CNB/650, kterým schválila společnosti EAG Finance s.r.o.
-          základní prospekt dluhopisů vydávaných v rámci dluhopisového programu z roku 2025,
-          jehož doba trvání byla stanovena na 5 let a nejvyšší objem nesplacených dluhopisů vydaných v rámci dluhopisového programu na 1 500 000 000 Kč.
-          Rozhodnutí ČNB nabylo právní moci dne 6. 2. 2025.
-        </p>
+        <h2>@GetText(Model.ProgramHeader)</h2>
+        <p>@GetText(Model.ProgramDescription)</p>
       </section>
 
       <div class="sections">
@@ -105,25 +102,22 @@
 
       <section class="cta-section">
         <div class="cta-left">
-          <h2>CALL TO ACTION</h2>
-          <p>
-            Dluhopisy jsou investiční příležitostí, prostřednictvím které se můžete stát součástí zajímavých projektů.
-            Jakých přesně, to se dočtete v detailním popisu každého dluhopisu.
-          </p>
+          <h2>@GetText(Model.CtaHeader)</h2>
+          <p>@GetText(Model.CtaText)</p>
         </div>
         <div class="cta-right">
           <div class="cta-person">
-            <img src="/uploads/img/kubin.jpg" alt="Jakub Kučín">
+            <img src="/uploads/img/kubin.jpg" alt="@GetText(Model.CtaContact1Name)">
             <div class="info">
-              <span class="name">Jakub Kubín</span>
-              <span class="position">Chief Operating Officer</span>
+              <span class="name">@GetText(Model.CtaContact1Name)</span>
+              <span class="position">@GetText(Model.CtaContact1Role)</span>
             </div>
           </div>
           <div class="cta-person">
-            <img src="/uploads/img/motl.jpg" alt="Michal Motl">
+            <img src="/uploads/img/motl.jpg" alt="@GetText(Model.CtaContact2Name)">
             <div class="info">
-              <span class="name">Michal Motl</span>
-              <span class="position">Chief Financial Officer</span>
+              <span class="name">@GetText(Model.CtaContact2Name)</span>
+              <span class="position">@GetText(Model.CtaContact2Role)</span>
             </div>
           </div>
         </div>
