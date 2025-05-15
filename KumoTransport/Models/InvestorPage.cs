@@ -16,6 +16,36 @@ namespace KumoTransport.Models
     // Dokumenty s referencí na sekci přes její ID (string)
     [Region(Title = "Dokumenty", ListTitle = "Title")]
     public IList<DocumentItem> Documents { get; set; }
+
+    [Region(Title = "Program Nadpis")]
+    public LocalizedText ProgramHeader { get; set; }
+
+    [Region(Title = "Program Popis")]
+    public LocalizedText ProgramDescription { get; set; }
+
+    [Region(Title = "CTA Nadpis")]
+    public LocalizedText CtaHeader { get; set; }
+
+    [Region(Title = "CTA Text")]
+    public LocalizedText CtaText { get; set; }
+
+    [Region(Title = "CTA Kontakt 1 – Jméno")]
+    public LocalizedText CtaContact1Name { get; set; }
+
+    [Region(Title = "CTA Kontakt 1 – Role")]
+    public LocalizedText CtaContact1Role { get; set; }
+
+    [Region(Title = "CTA Kontakt 2 – Jméno")]
+    public LocalizedText CtaContact2Name { get; set; }
+
+    [Region(Title = "CTA Kontakt 2 – Role")]
+    public LocalizedText CtaContact2Role { get; set; }
+
+    [Region(Title = "Zpět tlačítko")]
+    public LocalizedText BackButtonText { get; set; }
+
+    [Region(Title = "Nadpis stránky")]
+    public LocalizedText PageTitle { get; set; }
   }
 
   [BlockType(Name = "Sekce", Category = "Obsah")]
@@ -40,7 +70,4 @@ namespace KumoTransport.Models
     [Field(Title = "Sekce (ID)", Description = "Zadej ID sekce, do které dokument patří")]
     public StringField SectionId { get; set; }
   }
-
-
-
 }
