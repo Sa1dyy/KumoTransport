@@ -89,6 +89,27 @@ public class CmsController : Controller
     }
   }
 
+
+  /// <summary>
+  /// Gets the page with the given id.
+  /// </summary>
+  /// <param name="id">The unique page id</param>
+  /// <param name="draft">If a draft is requested</param>
+  [Route("investors")]
+  public async Task<IActionResult> InvestorPage(Guid id, bool draft = false)
+  {
+    try
+    {
+      var model = await _loader.GetPageAsync<InvestorPage>(id, HttpContext.User, draft);
+
+      return View(model);
+    }
+    catch (UnauthorizedAccessException)
+    {
+      return Unauthorized();
+    }
+  }
+
   /// <summary>
   /// Gets the post with the given id.
   /// </summary>
