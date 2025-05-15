@@ -12,6 +12,9 @@ public class KumoHomePage : Page<KumoHomePage>
   [Region(Title = "Odkaz na stránku pro investory")]
   public PageField InvestorsPage { get; set; }
 
+  [Region(Title = "Informace o používání cookies")]
+  public LocalizedText FooterLegalNotice { get; set; }
+
 
   // === DOOR REGION ===
 

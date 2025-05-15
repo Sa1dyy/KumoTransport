@@ -192,7 +192,7 @@
   {
     <div id="investor-button-wrapper" class="investor-button-wrapper">
       <a href="@Model.InvestorsPage.Page.Permalink" class="investor-button">
-        <img src="/uploads/img/ups_logo.png" alt="icon">
+        <img src="/uploads/img/handshake.png" alt="icon">
         @GetText(Model.InvestorsButtonText)
       </a>
     </div>
@@ -205,6 +205,10 @@
     <div class="footer-center">
       <span class="footer-text">@GetText(Model.FooterText)</span>
       <img id="footer-logo" src="/uploads/img/ups_logo.png" alt="UPS Logo">
+    </div>
+
+    <div class="footer-meta" style="text-align:center; font-size: 0.7rem; color: #888; margin-top: 10px;">
+      @GetText(Model.FooterLegalNotice)
     </div>
   </footer>
 

@@ -627,6 +627,7 @@ body.scene-focused #page-footer,
     border: none;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease;
+    z-index: 15;
   }
 
     .language-switch button:hover {
@@ -744,9 +745,9 @@ body.scene-focused #page-footer,
 
 .investor-button-wrapper {
   position: absolute;
-  bottom: 90px; /* nad footerem */
-  left: 60px;
-  z-index: 10;
+  bottom: 10vh; 
+  left: 100px;
+  z-index: 15;
 }
 
 .investor-button {
@@ -763,6 +764,7 @@ body.scene-focused #page-footer,
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
   transition: background 0.3s ease, transform 0.2s ease;
+  text-decoration: none !important;
 }
 
   .investor-button:hover {
@@ -1006,7 +1008,7 @@ body.scene-focused #page-footer,
 
   .investor-button-wrapper {
     position: fixed;
-    bottom: 120px;
+    bottom: 20vh;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
