@@ -25,6 +25,8 @@
       _ => "SOUBOR"
     };
   }
+
+  var basePath = Context.Request.PathBase.HasValue ? Context.Request.PathBase.Value : "/";
 }
 
 <!DOCTYPE html>
@@ -33,19 +35,19 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>@Model.MetaTitle</title>
-  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="@Url.Content("~/assets/css/styles.css")" />
 </head>
 
 <body>
   <div class="investor-page">
     <!-- Header -->
     <header class="investor-header">
-      <button id="back-button" class="back-button" onclick="window.location.href='/'">
+      <button id="back-button" class="back-button" onclick="window.location.href='@basePath'">
         <span class="circle"><span class="arrow-left"></span></span>
         <span class="text" data-mobile="Back">@GetText(Model.BackButtonText)</span>
       </button>
 
-      <img src="/uploads/img/GroupLogoBlack.png" class="header-logo" />
+      <img src="@Url.Content("~/uploads/img/GroupLogoBlack.png")" class="header-logo" />
 
       <button id="menu-button" class="menu-button default">
         MENU
@@ -107,14 +109,14 @@
         </div>
         <div class="cta-right">
           <div class="cta-person">
-            <img src="/uploads/img/kubin.jpg" alt="@GetText(Model.CtaContact1Name)">
+            <img src="@Url.Content("~/uploads/img/kubin.jpg")" alt="@GetText(Model.CtaContact1Name)">
             <div class="info">
               <span class="name">@GetText(Model.CtaContact1Name)</span>
               <span class="position">@GetText(Model.CtaContact1Role)</span>
             </div>
           </div>
           <div class="cta-person">
-            <img src="/uploads/img/motl.jpg" alt="@GetText(Model.CtaContact2Name)">
+            <img src="@Url.Content("~/uploads/img/motl.jpg")" alt="@GetText(Model.CtaContact2Name)">
             <div class="info">
               <span class="name">@GetText(Model.CtaContact2Name)</span>
               <span class="position">@GetText(Model.CtaContact2Role)</span>

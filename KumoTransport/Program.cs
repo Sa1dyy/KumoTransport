@@ -18,7 +18,6 @@ builder.AddPiranha(options =>
   options.UseTinyMCE();
   options.UseMemoryCache();
 
-
   var connectionString = builder.Configuration.GetConnectionString("piranha");
   options.UseEF<SQLiteDb>(db => db.UseSqlite(connectionString));
   options.UseIdentityWithSeed<IdentitySQLiteDb>(db => db.UseSqlite(connectionString));
@@ -26,6 +25,14 @@ builder.AddPiranha(options =>
 
 var app = builder.Build();
 
+// Dynamické nastavení base path z prostředí nebo konfigurace
+var basePath = Environment.GetEnvironmentVariable("APP_BASE_PATH") ?? builder.Configuration["AppBasePath"];
+if (!string.IsNullOrWhiteSpace(basePath))
+{
+  app.UsePathBase(basePath);
+}
+
+// Piranha CMS initialization
 using (var scope = app.Services.CreateScope())
 {
   var api = scope.ServiceProvider.GetRequiredService<Piranha.IApi>();
@@ -34,10 +41,8 @@ using (var scope = app.Services.CreateScope())
       .AddAssembly(typeof(Program).Assembly)
       .Build()
       .DeleteOrphans();
-
 }
 
-// 🟢 Piranha middleware
 app.UsePiranha(options =>
 {
   App.Init(options.Api);
