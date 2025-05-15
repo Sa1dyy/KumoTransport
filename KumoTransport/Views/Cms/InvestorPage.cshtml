@@ -1,0 +1,142 @@
+﻿@model KumoTransport.Models.InvestorPage
+@using Piranha.Models
+@using Piranha.Extend.Fields
+
+@{
+  Layout = null;
+}
+
+@functions {
+  private string GetFileExtensionLabel(string url)
+  {
+    var ext = System.IO.Path.GetExtension(url)?.TrimStart('.').ToUpperInvariant() ?? "PDF";
+    return ext switch
+    {
+      "PDF" => "PDF",
+      "DOC" => "DOC",
+      "DOCX" => "DOCX",
+      "XLS" => "XLS",
+      "XLSX" => "XLSX",
+      "TXT" => "TXT",
+      "CSV" => "CSV",
+      _ => "SOUBOR"
+    };
+  }
+}
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@Model.MetaTitle</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+
+<body>
+  <div class="investor-page">
+    <header class="investor-header">
+      <button id="back-button" class="back-button" onclick="window.location.href='/'">
+        <span class="circle">
+          <span class="arrow-left"></span>
+        </span>
+        <span class="text" data-mobile="Back">Back to depo</span>
+      </button>
+
+      <img src="/uploads/img/GroupLogoBlack.png" class="header-logo" />
+
+      <button id="menu-button" class="menu-button default">
+        MENU
+        <span class="icon">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </span>
+      </button>
+    </header>
+
+
+    <main>
+      <h1 class="investor-title">INVEST</h1>
+
+      <section class="program-section">
+        <h2>DLUHOPISOVÝ PROGRAM 2025</h2>
+        <p>
+          Dne 5. 2. 2025 vydala ČNB rozhodnutí pod č.j. 2025/014139/CNB/650, kterým schválila společnosti EAG Finance s.r.o.
+          základní prospekt dluhopisů vydávaných v rámci dluhopisového programu z roku 2025,
+          jehož doba trvání byla stanovena na 5 let a nejvyšší objem nesplacených dluhopisů vydaných v rámci dluhopisového programu na 1 500 000 000 Kč.
+          Rozhodnutí ČNB nabylo právní moci dne 6. 2. 2025.
+        </p>
+      </section>
+
+      <div class="sections">
+        @foreach (var docSection in Model.Sections)
+        {
+          var documents = Model.Documents
+          .Where(d => d.SectionId?.Value == docSection.SectionKey?.Value)
+          .ToList();
+
+          if (documents.Count == 0) continue;
+
+          <div class="investor-section section">
+            <button class="accordion-toggle">@docSection.Title?.Value</button>
+            <div class="accordion-content">
+              <ul class="doc-list">
+                @foreach (var doc in documents)
+                {
+                  var name = doc.Title?.Value ?? "Dokument";
+                  var rawUrl = doc.File?.Media?.PublicUrl ?? "#";
+                  var url = Url.Content(rawUrl);
+                  var ext = GetFileExtensionLabel(url);
+                  var size = doc.File?.Media?.Size != null
+                  ? $"{(doc.File.Media.Size / 1024.0 / 1024.0):0.##} MB"
+                  : "";
+
+                  <li>
+                    <span class="name">@name <span class="doc-meta">(@ext, @size)</span></span>
+                    <a class="download" href="@url" target="_blank" rel="noopener">Stáhnout</a>
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+        }
+      </div>
+
+      <section class="cta-section">
+        <div class="cta-left">
+          <h2>CALL TO ACTION</h2>
+          <p>
+            Dluhopisy jsou investiční příležitostí, prostřednictvím které se můžete stát součástí zajímavých projektů.
+            Jakých přesně, to se dočtete v detailním popisu každého dluhopisu.
+          </p>
+        </div>
+        <div class="cta-right">
+          <div class="cta-person">
+            <img src="/uploads/img/kubin.jpg" alt="Jakub Kučín">
+            <div class="info">
+              <span class="name">Jakub Kubín</span>
+              <span class="position">Chief Operating Officer</span>
+            </div>
+          </div>
+          <div class="cta-person">
+            <img src="/uploads/img/motl.jpg" alt="Michal Motl">
+            <div class="info">
+              <span class="name">Michal Motl</span>
+              <span class="position">Chief Financial Officer</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    document.querySelectorAll('.accordion-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.closest('.section').classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>

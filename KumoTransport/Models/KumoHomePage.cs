@@ -1,12 +1,18 @@
 ﻿using KumoTransport.Models;
 using Piranha.AttributeBuilder;
 using Piranha.Extend;
+using Piranha.Extend.Fields;
 using Piranha.Models;
 
 [PageType(Title = "Kumo Home Page", UseBlocks = true)]
 [ContentTypeRoute(Title = "Default", Route = "/kumohomepage")]
 public class KumoHomePage : Page<KumoHomePage>
 {
+
+  [Region(Title = "Odkaz na stránku pro investory")]
+  public PageField InvestorsPage { get; set; }
+
+
   // === DOOR REGION ===
 
   [Region(Title = "Door Text", Description = "Hlavní text zobrazovaný po kliknutí na dveře (About Us)")]
