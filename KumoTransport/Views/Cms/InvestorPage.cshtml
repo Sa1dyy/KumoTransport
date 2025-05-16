@@ -26,7 +26,7 @@
     };
   }
 
-  var basePath = Context.Request.PathBase.HasValue ? Context.Request.PathBase.Value : "/";
+  var basePath = Url.Content("~");
 }
 
 <!DOCTYPE html>
@@ -34,15 +34,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>@Model.MetaTitle</title>
-  <link rel="stylesheet" href="@Url.Content("~/assets/css/styles.css")" />
+  <title>@(!string.IsNullOrWhiteSpace(Model.MetaTitle) ? Model.MetaTitle : "Investors")</title>
+  <link rel="stylesheet" href="@Url.Content("~/assets/css/styles.css")?v=@DateTime.UtcNow.Ticks" />
 </head>
 
 <body>
   <div class="investor-page">
     <!-- Header -->
     <header class="investor-header">
-      <button id="back-button" class="back-button" onclick="window.location.href='@basePath'">
+      <button id="back-button" class="back-button" onclick="window.location.href='@Url.Content("~/")'">
         <span class="circle"><span class="arrow-left"></span></span>
         <span class="text" data-mobile="Back">@GetText(Model.BackButtonText)</span>
       </button>

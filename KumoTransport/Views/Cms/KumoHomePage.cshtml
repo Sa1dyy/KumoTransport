@@ -24,7 +24,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="@Url.Content("~/assets/css/styles.css")?v=@DateTime.UtcNow.Ticks" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.min.js"></script>
   <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
   <script src="https://unpkg.com/meshoptimizer@0.18.1/meshopt_decoder.js"></script>
@@ -195,7 +195,7 @@
   @if (Model.InvestorsPage?.HasValue == true)
   {
     <div id="investor-button-wrapper" class="investor-button-wrapper">
-      <a href="@Model.InvestorsPage.Page.Permalink" class="investor-button">
+      <a href="@Url.Content("~" + Model.InvestorsPage.Page.Permalink)" class="investor-button">
         <img src="/uploads/img/handshake.png" alt="icon">
         @GetText(Model.InvestorsButtonText)
       </a>
@@ -214,6 +214,7 @@
     <div class="footer-meta" style="text-align:center; font-size: 0.7rem; color: #888; margin-top: 10px;">
       @GetText(Model.FooterLegalNotice)
     </div>
+
   </footer>
 
 
