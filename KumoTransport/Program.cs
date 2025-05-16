@@ -8,6 +8,14 @@ using Piranha.Manager.Editor;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Dynamické nastavení base path z prostředí nebo konfigurace
+var basePath = Environment.GetEnvironmentVariable("APP_BASE_PATH") ?? builder.Configuration["AppBasePath"];
+
+if (!string.IsNullOrWhiteSpace(basePath))
+{
+  builder.WebHost.UseSetting(WebHostDefaults.ApplicationKey, builder.Environment.ApplicationName);
+}
+
 builder.AddPiranha(options =>
 {
   options.AddRazorRuntimeCompilation = true;
@@ -25,8 +33,6 @@ builder.AddPiranha(options =>
 
 var app = builder.Build();
 
-// Dynamické nastavení base path z prostředí nebo konfigurace
-var basePath = Environment.GetEnvironmentVariable("APP_BASE_PATH") ?? builder.Configuration["AppBasePath"];
 if (!string.IsNullOrWhiteSpace(basePath))
 {
   app.UsePathBase(basePath);
@@ -43,6 +49,22 @@ using (var scope = app.Services.CreateScope())
       .DeleteOrphans();
 }
 
+if (app.Environment.IsDevelopment())
+{
+  app.UseDeveloperExceptionPage();
+}
+
+// ✅ statické soubory před UseRouting
+StaticFileOptions staticOptions = new StaticFileOptions
+{
+  ContentTypeProvider = new FileExtensionContentTypeProvider(),
+  ServeUnknownFileTypes = true
+};
+app.UseStaticFiles(staticOptions);
+
+app.UseRouting();
+
+// ✅ Piranha middleware po routing
 app.UsePiranha(options =>
 {
   App.Init(options.Api);
@@ -53,19 +75,5 @@ app.UsePiranha(options =>
   options.UseTinyMCE();
   options.UseIdentity();
 });
-
-if (app.Environment.IsDevelopment())
-{
-  app.UseDeveloperExceptionPage();
-}
-
-app.UseRouting();
-
-StaticFileOptions staticOptions = new StaticFileOptions
-{
-  ContentTypeProvider = new FileExtensionContentTypeProvider(),
-  ServeUnknownFileTypes = true
-};
-app.UseStaticFiles(staticOptions);
 
 app.Run();
